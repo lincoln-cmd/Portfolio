@@ -81,7 +81,7 @@ def rocket_equation1():
     button1.pack()
     button2 = Button(window, text = 't2[m/s]', command = input_t2)
     button2.pack()
-    button3 = Button(window, text = 'm1[kg/', command = input_m1)
+    button3 = Button(window, text = 'm1[kg]', command = input_m1)
     button3.pack()
     button4 = Button(window, text = 'm2[kg]', command = input_m2)
     button4.pack()
@@ -334,6 +334,16 @@ def geo():
 
 
 '''geostationary orbit'''
+
+
+
+
+'''escape velocity'''
+
+'''escape velocity'''
+
+
+
 
 
     

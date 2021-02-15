@@ -1,3 +1,5 @@
+# 
+
 import tkinter
 from tkinter import *
 import numpy as np
@@ -9,6 +11,10 @@ window.resizable(True, True)
 
 constant_m = []
 constant_t = []
+
+m_e = 5.98e24
+r_e = 6.37e6
+g = 6.674e-11
 
 def TURKSAT():
     if listbox[0]:
@@ -54,7 +60,7 @@ listbox.insert(3, 'BEIDOU 3 G2')
 listbox.insert(4, 'GEO-KOMPSAT-2B')
 listbox.insert(5, 'JCSAT 17')
 listbox.insert(6, 'EUTELSAT KONNECT')
-listbox.pack(side = 'left')
+listbox.pack(side = 'right')
 
 scrollbar['command'] = listbox.yview
 
@@ -72,19 +78,23 @@ label3.pack()
 
 
 def sel():
-    if listbox.get(ANCHOR):
+    if listbox.get(ANCHOR) == True:
         if len(constant_m) == 0:
             constant_m.append(m)
+            m = constant_m[0]
             label2.config(text = str(m) + 'm')
         else:
             constant_m[0] = m
+            m = constant_m[0]
             label2.config(text = str(m) + 'm')
         
         if len(constant_t) == 0:
-            constant_t.append(t)
+            constant_t.append(t * 3600)
+            t = constant_t[0]
             label3.config(text = str(t) + 's')
         else:
-            constant_t[0] = t * 60
+            constant_t[0] = t * 3600
+            t = constant_t[0]
             label3.config(text = str(t) + 's')
 
     
@@ -96,7 +106,7 @@ label4.pack()
 def resolve():
     t = constant_t[0]
     m = constant_m[0]
-    r = ((6.674 * 10e-11 * t**2) / (4 * np.pi**2))**(1/3)
+    r = ((m_e * 6.674 * 10e-11 * t**2) / (4 * np.pi**2))**(1/3)
     label4.config(text = str(r) + 'm')
 
 button = Button(window, text = 'resolve', command = resolve)
