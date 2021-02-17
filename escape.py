@@ -4,7 +4,8 @@ import numpy as np
 import requests
 from bs4 import BeautifulSoup
 
-# crolling
+# crawlling
+'''
 namelist = []
 masslist = []
 radiuslist = []
@@ -45,11 +46,15 @@ del radiuslist[3]
 masslist[23] = 3.1
 radiuslist[23] = 715
 
+'''
+# escape speed
 
-#
+namelist = ['Sun', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Earth', 'Venus', 'Mars', 'Ganymede', 'Titan', 'Mercury', 'Callisto', 'Io', 'Moon', 'Europa', 'Triton', 'Pluto', 'Eris', 'Titania', 'Haumea', 'Rhea', 'Oberon', 'Iapetus', 'Makemake', 'Gonggong', 'Charon', 'Umbriel', 'Ariel', 'Dione', 'Quaoar', 'Tethys', 'Sedna', 'Ceres', 'Orcus', 'Salacia']
+masslist = ['1989100000', '1898187', '568317', '86813', '102413', '5972.4', '4867.5', '641.71', '148.2', '134.5', '330.11', '107.6', '89.32', '73.46', '48.00', '21.39', '13.03', '16.6', '3.40', '4.01', '2.307', '3.08', '1.806', 3.1, '1.75', '1.586', '1.28', '1.25', '1.095', '1.4', '0.617', 0, '0.938', '0.61', '0.492']
+radiuslist = ['695508', '69911', '58232', '25362', '24622', '6371.0084', '6052', '3389.5', '2634.1', '2574.73', '2439.4', '2410.3', '1821.6', '1737.5', '1560.8', '1353.4', '1188.3', '1163', '788.4', '760', '763.8', '761.4', '734.5', 715, '615', '606', '584.7', '578.9', '561.4', '560.5', '531.1', '498', '469.7', '458', '423']
 
 window = tkinter.Tk()
-window.title('Escape velocity')
+window.title('Escape speed')
 window.geometry('680x880+100+100')
 window.resizable(True, True)
 
@@ -73,9 +78,18 @@ for i in range(len(namelist)):
     listbox.insert(i, str(namelist[i]))
 listbox.pack(side = 'left')
 
+def poll():
+    label1.after(200, poll)
+    label2.after(200, poll)
+    sel = listbox.index(tkinter.ACTIVE)
+    m = masslist[sel]
+    r = radiuslist[sel]
+    label1.config(text = str(m))
+    label2.config(text = str(r))
+
 scrollbar['command'] = listbox.yview()
 frame.pack()
 
 
-
+poll()
 window.mainloop()
