@@ -79,6 +79,7 @@ for i in range(len(namelist)):
 listbox.pack(side = 'left')
 
 def poll():
+    window.after_cancel()
     label1.after(200, poll)
     label2.after(200, poll)
     sel = listbox.index(tkinter.ACTIVE)
@@ -86,6 +87,9 @@ def poll():
     r = radiuslist[sel]
     label1.config(text = str(m))
     label2.config(text = str(r))
+    
+
+    
 
 scrollbar['command'] = listbox.yview()
 frame.pack()
