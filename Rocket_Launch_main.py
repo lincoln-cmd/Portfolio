@@ -491,6 +491,9 @@ def esc():
 
 '''Rocket acceleration equation'''
     
+
+
+'''menubar'''
 menubar = tkinter.Menu(window)
 
 menu_1 = tkinter.Menu(menubar, tearoff = 0)
@@ -508,7 +511,7 @@ menu_3 = tkinter.Menu(menubar, tearoff = 0)
 menu_3.add_command(label = 'Geostationary orbit(GEO)', command = geo)
 menu_3.add_command(label = 'Escape speed', command = esc)
 menubar.add_cascade(label = 'Geostationary orbit', menu = menu_3)
-
+'''menubar'''
 
 
 
