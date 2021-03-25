@@ -2,8 +2,25 @@
 
 # from : https://learn.astropy.org/rst-tutorials/color-excess.html?highlight=filtertutorials
 # install the subsidary modules synphot, dus_extinction, astroquery
+# Synthetic Photometry(synphot) document : https://synphot.readthedocs.io/en/latest/#installation-and-setup
 import matplotlib.pyplot as plt
 %matplotlib inline
+
+'''
+성간 물질 : interstellar medium(ISM)
+양자 역학 모듈 : QuTiP
+상대성이론 모듈 : EinsteinPy
+
+A_λ > 0 : 시선을 따라 흡수나 산란 때문에 올라가는 등급
+A_λ = 1.086τ_λ -> 소광에 의한 겉보기 등급의 변화는 시선 방향으로 광학 두께와 거의 비슷하다.
+
+
+τ_λ : 광학 두께
+빛 세기의 상대적 변화 : I_λ / I_λ,0 = e^-τ_λ
+
+
+
+'''
 
 import numpy as np
 import astropy.units as u
@@ -28,7 +45,7 @@ for model in [CCM89, F99]:
         ext = model(Rv = R)
         plt.plot(1/wav, ext(wav), label = model.name + 'R = ' + str(R))
         
-plt.xlabel('$\lambda^{-1}$ ($\mu$m$^{-1}$')
+plt.xlabel('$\lambda^{-1}$ ($\mu$m$^{-1}$)')
 plt.ylabel('A($\lambda$) / A(V)')
 plt.legend(loc = 'best')
 plt.title('Some Extinction Laws')
@@ -115,3 +132,69 @@ plt.show()
 
 
 # 3. Calculate Color Excess with 'synphot'
+# synthetic photometry
+'''
+download the data files
+
+# Optional, for when the STScI ftp server is not answering:
+config.conf.vega_file='http://ssb.stsci.edu/cdbs/calspec/alpha_lyr_stis_008.fits'
+config.conf.johnson_u_file='http://ssb.stsci.edu/cdbs/comp/nonhst/johnson_u_004_syn.fits'
+config.conf.johnson_b_file='http://ssb.stsci.edu/cdbs/comp/nonhst/johnson_b_004_syn.fits'
+config.conf.johnson_v_file='http://ssb.stsci.edu/cdbs/comp/nonhst/johnson_v_004_syn.fits'
+config.conf.johnson_r_file='http://ssb.stsci.edu/cdbs/comp/nonhst/johnson_r_003_syn.fits'
+config.conf.johnson_i_file='http://ssb.stsci.edu/cdbs/comp/nonhst/johnson_i_003_syn.fits'
+config.conf.bessel_j_file='http://ssb.stsci.edu/cdbs/comp/nonhst/bessell_j_003_syn.fits'
+config.conf.bessel_h_file='http://ssb.stsci.edu/cdbs/comp/nonhst/bessell_h_004_syn.fits'
+config.conf.bessel_k_file='http://ssb.stsci.edu/cdbs/comp/nonhst/bessell_k_003_syn.fits'
+'''
+
+# getting the filter transmission curves
+u_band = SpectralElement.from_filter('johnson_u')
+b_band = SpectralElement.from_filter('johnson_b')
+v_band = SpectralElement.from_filter('johnson_v')
+r_band = SpectralElement.from_filter('johnson_r')
+i_band = SpectralElement.from_filter('johnson_i')
+j_band = SpectralElement.from_filter('bessel_j')
+h_band = SpectralElement.from_filter('bessel_h')
+k_band = SpectralElement.from_filter('bessel_k')
+
+# making a background flux
+# making 10,000K blackbody
+sp = SourceSpectrum(BlackBodyNorm1D, temperature = 10000)
+sp.plot(left = 1, right = 15000, flux_unit = 'flam', title = 'Blackbody')
+
+# get the vega spectrum as the zero point flux
+vega = SourceSpectrum.from_vega()
+vega.plot(left = 1, right = 15000, title = 'Vega')
+
+
+# normalize the blackbody to some chosen magnitude, say V = 10
+vmag = 10
+v_band = SpectralElement.from_filter('johnson_v')
+sp_norm = sp.normalize(vmag * units.VEGAMAG, v_band, vegaspec = vega)
+sp_norm.plot(left = 1, right = 15000, flux_unit = 'flam', title = 'Normed Blackbody')
+
+# initialize the extinction model and choose an extinction of A_v = 2
+# to get the 'dust_extinction' model working with 'synphot', create a wavelength array and spectral element with the extinction model
+
+# initialize the extinction model and choose the extinction. A_v = 2
+ext = CCM89(Rv = 3.1)
+Av = 2.
+
+# create a wavelength array
+wav = np.arange(0.1, 3, 0.001) * u.micron
+
+# make the extinction model in synphot using a lookup table
+ex = ExtinctionCurve(ExtinctionModel1D, points = wav, lookup_table = ext.extinguish(wav, Av = Av))
+sp_ext = sp_norm * ex
+sp_ext.plot(left = 1, right = 15000, flux_unit = 'flam', title = 'Normed Blackbody with Extinction')
+
+# !! synthetic photometry refers to modeling an observation of a star by multiplying the theoretical model for the
+# astronomical flux through a certain filter response function, then integrating !!
+
+# observe the star through the filter and integrate to get photometric mag
+sp_obs = Observation(sp_ext, v_band)
+sp_obs_before = Observation(sp_norm, v_band)
+sp_obs.plot(left = 1, right = 1500, flux_unit = 'flam', title = 'Normed Blackbody with Extinction through V Filter')
+
+# integration and computes magnitudes in the Vega system by 'synphot'
