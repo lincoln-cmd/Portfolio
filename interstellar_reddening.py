@@ -161,18 +161,18 @@ k_band = SpectralElement.from_filter('bessel_k')
 # making a background flux
 # making 10,000K blackbody
 sp = SourceSpectrum(BlackBodyNorm1D, temperature = 10000)
-sp.plot(left = 1, right = 15000, flux_unit = 'flam', title = 'Blackbody')
+# sp.plot(left = 1, right = 15000, flux_unit = 'flam', title = 'Blackbody')
 
 # get the vega spectrum as the zero point flux
 vega = SourceSpectrum.from_vega()
-vega.plot(left = 1, right = 15000, title = 'Vega')
+# vega.plot(left = 1, right = 15000, title = 'Vega')
 
 
 # normalize the blackbody to some chosen magnitude, say V = 10
 vmag = 10
 v_band = SpectralElement.from_filter('johnson_v')
 sp_norm = sp.normalize(vmag * units.VEGAMAG, v_band, vegaspec = vega)
-sp_norm.plot(left = 1, right = 15000, flux_unit = 'flam', title = 'Normed Blackbody')
+# sp_norm.plot(left = 1, right = 15000, flux_unit = 'flam', title = 'Normed Blackbody')
 
 # initialize the extinction model and choose an extinction of A_v = 2
 # to get the 'dust_extinction' model working with 'synphot', create a wavelength array and spectral element with the extinction model
@@ -187,7 +187,7 @@ wav = np.arange(0.1, 3, 0.001) * u.micron
 # make the extinction model in synphot using a lookup table
 ex = ExtinctionCurve(ExtinctionModel1D, points = wav, lookup_table = ext.extinguish(wav, Av = Av))
 sp_ext = sp_norm * ex
-sp_ext.plot(left = 1, right = 15000, flux_unit = 'flam', title = 'Normed Blackbody with Extinction')
+# sp_ext.plot(left = 1, right = 15000, flux_unit = 'flam', title = 'Normed Blackbody with Extinction')
 
 # !! synthetic photometry refers to modeling an observation of a star by multiplying the theoretical model for the
 # astronomical flux through a certain filter response function, then integrating !!
@@ -195,6 +195,44 @@ sp_ext.plot(left = 1, right = 15000, flux_unit = 'flam', title = 'Normed Blackbo
 # observe the star through the filter and integrate to get photometric mag
 sp_obs = Observation(sp_ext, v_band)
 sp_obs_before = Observation(sp_norm, v_band)
-sp_obs.plot(left = 1, right = 1500, flux_unit = 'flam', title = 'Normed Blackbody with Extinction through V Filter')
+# sp_obs.plot(left = 1, right = 1500, flux_unit = 'flam', title = 'Normed Blackbody with Extinction through V Filter')
 
 # integration and computes magnitudes in the Vega system by 'synphot'
+sp_stim_before = sp_obs_before.effstim(flux_unit = 'vegamag', vegaspec = vega)
+sp_stim = sp_obs.effstim(flux_unit = 'vegamag', vegaspec = vega)
+print('before dust, V =', np.round(sp_stim_before, 1))
+print('after dust, V =', np.round(sp_stim, 1))
+
+# calculate extinction and compare to chosen value
+Av_calc = sp_stim - sp_stim_before
+print('$A_V$ =', np.round(Av_calc, 1))
+
+
+# reddening with the model extinction curve for comparison in the plot
+bands = [u_band, b_band, v_band, r_band, i_band, j_band, h_band, k_band]
+
+for band in bands:
+    # calculate photometry with dust
+    sp_obs = Observation(sp_ext, band, force = 'extrap')
+    obs_effstim = sp_obs.effstim(flux_unit = 'vegamag', vegaspec = vega)
+    #calculate photometry without dust
+    sp_obs_i = Observation(sp_norm, band, force = 'extrap')
+    obs_i_effstim = sp_obs_i.effstim(flux_unit = 'vegamag', vegaspec = vega)
+    
+    # extinction = mag with dust - mag without dust
+    # color excess = extinction at lambda - extinction at V
+    color_excess = obs_effstim - obs_i_effstim - Av_calc
+    plt.plot(sp_obs_i.effective_wavelength(), color_excess, 'or')
+    print(np.round(sp_obs_i.effective_wavelength(), 1), ',', np.round(color_excess, 2))
+    
+# plot the model extinction curve for comparison
+plt.plot(wav, Av * ext(wav) - Av, '--k')
+plt.ylim([-2, 2])
+plt.xlabel('$\lambda$ (Angstrom)')
+plt.ylabel('E($\lambda$-V)')
+plt.title('Reddening of T = 10,000K Background Source with Av = 2')
+plt.show()
+
+# cannot convert flam unit to vegamag
+# -> if you draw the plot employing flam unit, you cannot draw the plot utilizing the vegamag unit
+# -> if you want to draw the plot with vegamag unit, you have to eliminate all of the plots which are composing the flam unit
