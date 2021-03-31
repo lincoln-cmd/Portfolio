@@ -202,4 +202,93 @@ This function can be employed to show the red and blueshift of the spectrum rela
 '''
 waveclosetoHa = np.array([6562., 6563, 6565.]) * u.AA
 
+# make the function to utilize the 'Doppler equivalency' between wavelength and velocity
+import astropy.units as u
+def wave2doppler(w, w0):
+    w0_equiv = u.doppler_optical(w0)
+    w_equiv = w.to(u.km/u.s, equivalencies = w0_equiv)
+    return w_equiv
+
+print(wave2doppler(waveclosetoHa, 656.489 * u.nm).to(u.km/u.s))
+
+
+'''
+ Make the function which has the wavelength array and rest wavelength of spectral line as input values and Doppler shift as return value.
+This function subtracts the radial velocity of MN Lup(4.77 km/s) and expresses the resulting velocity in units of vsini.
+Furthermore, this function can be employed to show the red- and blueshift of the spectrum relative to the Ca 2 H line.
+'''
+def w2vsini(wavelength_array, wavelength_line):
+    w1 = u.doppler_optical(wavelength_line)
+    w2 = wavelength_array.to(u.km/u.s, equivalencies = w1)
+    array_of_shift_in_vsini = w2 - 4.77 * u.km/u.s
+    return array_of_shift_in_vsini / vsini
+
+print('my test', end = ' : ')
+print(w2vsini(waveclosetoHa, 656.489 * u.nm))
+
+def w2vsini(w, w0):
+    v = wave2doppler(w, w0) - 4.77 * u.km/u.s
+    return v / vsini
+
+
+'''
+ - Converting times
+ Utilize the 'astropy.time' to convert time and dates between different systems and formats.
+If unless the format is unambiguous, the format needs to be specified(i.e. a number colud mean JD, MJD, or year).
+Moreover, the time system needs to be given (i.e. UTC).
+ It can be just read the keywords in the time system. This is because the 'ESO FITS headers' already contain the time of the observation in different systems.
+'''
+# initialized from different header keywords
+from astropy.time import Time
+t1 = Time(header['MJD-Obs'], format = 'mjd', scale = 'utc')
+t2 = Time(header['Date-Obs'], scale = 'utc')
+
+# times can be expressed in different formats
+print(t1)
+print(t1.isot) # scale = 'utc', format = 'isot'
+print(t2)
+
+print(t1.tt) # convert to a different time system. scale = 'tt', format = 'mjd'
+
+# times can be initialized from arrays, and the time differences can be calculated
+obs_times = Time(date, scale = 'utc')
+delta_t = obs_times - Time(date[0], scale = 'utc') # the unit of delta_t is day
+
+
+'''
+ - Normalize the flux to the local continuum
+ To estimate the equivalent width or make reasonable plots, the flux should to be normalize to the local continuum.
+In this case, the emission line is bright and the continuum can be described reasonably by a second-order polynomial.
+ Define two parts of regions left and right of the emission line where are fit the polynomial.
+'''
+def region_around_line(w, flux, cont):
+    '''
+    cut out and normalize flux around a line
+    
+    Parameters
+    ----------
+    w : one-dimension np.nadarray. (array of wavelengths)
+    flux : np.ndarray of shape (N, len(w)). array of flux values for different spectra in the series
+    cont : list of lists. wavelengths for continuum normalization [[low1, up1], [low2, up2]] that described two areas on both sides of the line
+    '''
+    # index is true in the region where we fit the polynomial
+    indcont = ((w > cont[0][0]) & (w < cont[0][1])) | ((w > cont[1][0]) & (w < cont[1][1]))
+    # index of the region we want to return
+    indrange = (w > cont[0][0]) & (w < cont[1][1])
+    # make a flux array of shape
+    # (number of spectra, number of points in indrange)
+    f = np.zeros((flux.shape[0], indrange.sum()))
+    for i in range(flux.shape[0]):
+        # fit polynomial of second order to the continuum region
+        linecoeff = np.polyfit(w[indcont], flux[i, indcont], 2)
+        # divide the flux by the polynomial and put the result in our new flux array
+        f[i, :] = flux[i, indrange] / np.polyval(linecoeff, w[indrange].value)
+    return w[indrange], f
+
+wcaII, fcaII = region_around_line(wavelength, flux, [[3925 * u.AA, 3930 * u.AA], [3938 * u.AA, 3945 * u.AA]])
+
+# calculate the equivalent width in Angstroms of the emission line for the first spectrum
+ew = fcaII[0, :] - 1. # ?? how can subtract the number from array??
+ew = ew[:-1] * np.diff(wcaII.to(u.AA).value) # ?? metrix complication or just complication??
+print(ew.sum()) # not 19.37760714447237... -> 20.21238214515653
 
