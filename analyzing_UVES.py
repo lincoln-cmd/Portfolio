@@ -16,7 +16,7 @@ from : https://ui.adsabs.harvard.edu/abs/2013ApJ...771...70G/abstract
 '''
 
 import matplotlib.pyplot as plt
-%matplotlib inline
+# %matlpotlib inline
 
 # download tar files and extract the files' data
 import tarfile
@@ -254,6 +254,10 @@ print(t1.tt) # convert to a different time system. scale = 'tt', format = 'mjd'
 obs_times = Time(date, scale = 'utc')
 delta_t = obs_times - Time(date[0], scale = 'utc') # the unit of delta_t is day
 
+# to express the time difference between the individual spectra of MN Lup in rotational periods, to begin with, the 'delta_t' object has to be converted
+#This is because this object has days as an unit. Howevert, the 'astropy.time.Time' and 'astropy.units.Quantity' do not offer the service with that units,
+#so this has to be converted from one to the other explicityly
+delta_p = delta_t.value * u.day /period
 
 '''
  - Normalize the flux to the local continuum
@@ -292,3 +296,127 @@ ew = fcaII[0, :] - 1. # ?? how can subtract the number from array??
 ew = ew[:-1] * np.diff(wcaII.to(u.AA).value) # ?? metrix complication or just complication??
 print(ew.sum()) # not 19.37760714447237... -> 20.21238214515653
 
+
+# process all spectra at once by employing numpy array notation
+delta_lam = np.diff(wcaII.to(u.AA).value)
+ew = np.sum((fcaII - 1.)[:, :-1] * delta_lam[np.newaxis, :], axis = 1)
+
+# generate a LaTeX table of the observation times, period, and equivalent width which can directyl paste into manuscript.
+# for that, firstly, collect all the columns and make an astropy.table.Table object
+from astropy.table import Column, Table
+from astropy.io import ascii
+
+datecol = Column(name = 'Obs Date', data = date)
+pcol = Column(name = 'phase', data = delta_p, format = '{:.1f}')
+ewcol = Column(name = 'EW', data = ew, format = '{:.1f}', unit = '\\AA')
+tab = Table((datecol, pcol, ewcol))
+# latexdicts['AA'] contains the style specifics for A&A (\hline etc..)
+tab.write(os.path.join(working_dir_path, 'EWtab.tex'), latexdict = ascii.latexdicts['AA'])
+# tab.write(os.path.join(working_dir_path, 'Ewtab2.py'), latexdict = ascii.latexdicts['AA'])
+
+'''
+ - Plot
+ The x-axis shows the Doppler shift expressed in units of the rotational velocity. In this process, the features that are rotationally modulated
+will stick out between -1 and +1
+'''
+x = w2vsini(wcaII, 393.366 * u.nm).decompose()
+
+# set reasonable figsize for 1-column figures
+# this plot shows only a single spectrum
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+ax.plot(x, fcaII[0,:], marker = '', drawstyle = 'steps-mid')
+ax.set_xlim([-3, +3])
+ax.set_xlabel('line shift [v sin(i)]')
+ax.set_ylabel('flux')
+ax.set_title('Ca II H line in MN Lup')
+plt.draw()
+fig.savefig('Ca_II_H_line_in_MN_Lup.png', dpi = 200, bbox_inches = 'tight')
+
+# make the plot which shows all spectra into a single plot and introduce a sensibel offset between them. To do so, following the time evolution of the line is essential
+yshift = np.arange((fcaII.shape[0])) * 0.5
+yshift[:] += 1.5 # shift the second night up by a little more
+yshift[13:] += 1
+
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+
+for i in range(25):
+    ax.plot(x, fcaII[i, :] + yshift[i], 'k')
+
+# separately show the mean line profile in a different color
+ax.plot(x, np.mean(fcaII, axis = 0))
+ax.set_xlim([-2.5, +2.5])
+ax.set_xlabel('line shift [$v \\sin i$]')
+ax.set_ylabel('flux')
+ax.set_title('Ca II H line in MN Lup')
+fig.subplots_adjust(bottom = 0.15)
+plt.draw()
+
+fmean = np.mean(fcaII, axis = 0)
+fdiff = fcaII - fmean[np.newaxis, :]
+
+# the axis scales are not right, the gap between both nights is not visible and there is no proper labeling
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+im = ax.imshow(fdiff, aspect = 'auto', origin = 'lower')
+
+# plot the spectra from both nights separately and pass the extent keyword to ax.imshow which takes care of the axis
+ind1 = delta_p < 1 * u.dimensionless_unscaled
+ind2 = delta_p > 1 * u.dimensionless_unscaled
+
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+
+for ind in [ind1, ind2]:
+    im = ax.imshow(fdiff[ind, :], extent = (np.min(x), np.max(x), np.min(delta_p[ind]), np.max(delta_p[ind])), aspect = 'auto', origin = 'lower')
+    
+ax.set_ylim([np.min(delta_p), np.max(delta_p)])
+ax.set_xlim([-1.9, 1.9])
+plt.draw()
+
+
+'''
+ more enhanced plot than above one
+ 
+-> introduce an offset on the y-axis to reduce the amount of white space
+-> above plot has wrong scale strictly because the extent keyword gives the edges of the image shown, byt x and delta_p contain the bin mid-points
+-> utilize the gray scale instead of color to save publication charges
+-> add labels to the axis
+'''
+# shift a little for plotting purposes
+pplot = delta_p.copy().value
+# image goes from x1 to x2, but really x1 should be middle of first pixel
+delta_t = np.median(np.diff(delta_p)) / 2. # numpy.median : calculate the median along the specified axis and return the median of the array elements
+delta_x = np.median(np.diff(x)) / 2.
+# normalization for plotting by hand to ensure it goes -1 to +1, not merely employ the imshow
+fdiff = fdiff / np.max(np.abs(fdiff))
+
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+
+for ind in [ind1, ind2]:
+    im = ax.imshow(fdiff[ind, :],
+                   extent = (np.min(x) - delta_x, np.max(x) + delta_x,
+                             np.min(pplot[ind]) - delta_t, np.max(pplot[ind]) + delta_t),
+                   aspect = 'auto', origin = 'lower', cmap = plt.cm.Greys_r)
+    
+ax.set_ylim([np.min(pplot) - delta_t, np.max(pplot) + delta_t])
+ax.set_xlim([-1.9, 1.9])
+ax.set_xlabel('vel in $v\\sin i$')
+ax.xaxis.set_major_locator(plt.MaxNLocator(4))
+
+def pplot(y, pos):
+    #'the two args are the value and tick position'
+    #'Function to make tick labels look good.'
+    if y < 0.5:
+        yreal = y
+    else:
+        yreal = y + 1.5
+    return yreal
+
+formatter = plt.FuncFormatter(pplot)
+ax.yaxis.set_major_formatter(formatter)
+ax.set_ylabel('period')
+fig.subplots_adjust(left = 0.15, bottom = 0.15, right = 0.99, top = 0.99)
+plt.draw()
