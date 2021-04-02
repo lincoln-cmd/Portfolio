@@ -16,7 +16,8 @@ from : https://ui.adsabs.harvard.edu/abs/2013ApJ...771...70G/abstract
 '''
 
 import matplotlib.pyplot as plt
-# %matlpotlib inline
+#from IPython.display import set_matplotlib_formats
+# %matplotlib inline
 
 # download tar files and extract the files' data
 import tarfile
@@ -182,7 +183,7 @@ print((v_accr / v_rot).decompose()) # (v_accr / v_rot) is composed different uni
  λ_heliocentric = λ_bariocentric * (1 + v_helio / c)
 -> correct the wavelength scale to the heliocentric velocity scale by utilizing the 'astropy.units'
 '''
-# wavelength = wavelength * (1. + heliocentric / c) # all the constants have each different unit value, km, m, and just a number
+wavelength = wavelength * (1. + heliocentric / c) # all the constants have each different unit value, km, m, and just a number
 wavelength = wavelength * (1. * u.dimensionless_unscaled + heliocentric / c)
 print(wavelength.to(u.keV, equivalencies = u.spectral())) # 1eV = 1.60218 x 10^-19
 print(wavelength.to(u.Hz, equivalencies = u.spectral()))
@@ -200,7 +201,7 @@ print(np.log10((G * M_MN_Lup / R_MN_Lup**2) / u.cm * u.second**2)) # cgs system
  Convert a wavelength scale into a velocity scale. Input the wavelengths array and the rest wavelength of a spectral line.
 This function can be employed to show the red and blueshift of the spectrum relative to the Ca II H line.
 '''
-waveclosetoHa = np.array([6562., 6563, 6565.]) * u.AA
+waveclosetoHa = np.array([6562., 6563., 6565.]) * u.AA
 
 # make the function to utilize the 'Doppler equivalency' between wavelength and velocity
 import astropy.units as u
@@ -216,15 +217,16 @@ print(wave2doppler(waveclosetoHa, 656.489 * u.nm).to(u.km/u.s))
  Make the function which has the wavelength array and rest wavelength of spectral line as input values and Doppler shift as return value.
 This function subtracts the radial velocity of MN Lup(4.77 km/s) and expresses the resulting velocity in units of vsini.
 Furthermore, this function can be employed to show the red- and blueshift of the spectrum relative to the Ca 2 H line.
-'''
-def w2vsini(wavelength_array, wavelength_line):
+
+def my_w2vsini(wavelength_array, wavelength_line):
     w1 = u.doppler_optical(wavelength_line)
     w2 = wavelength_array.to(u.km/u.s, equivalencies = w1)
     array_of_shift_in_vsini = w2 - 4.77 * u.km/u.s
     return array_of_shift_in_vsini / vsini
 
 print('my test', end = ' : ')
-print(w2vsini(waveclosetoHa, 656.489 * u.nm))
+print(my_w2vsini(waveclosetoHa, 656.489 * u.nm))
+'''
 
 def w2vsini(w, w0):
     v = wave2doppler(w, w0) - 4.77 * u.km/u.s
@@ -245,10 +247,14 @@ t2 = Time(header['Date-Obs'], scale = 'utc')
 
 # times can be expressed in different formats
 print(t1)
+t1
 print(t1.isot) # scale = 'utc', format = 'isot'
+t1.isot
 print(t2)
+t2
 
 print(t1.tt) # convert to a different time system. scale = 'tt', format = 'mjd'
+t1.tt
 
 # times can be initialized from arrays, and the time differences can be calculated
 obs_times = Time(date, scale = 'utc')
@@ -289,10 +295,12 @@ def region_around_line(w, flux, cont):
         f[i, :] = flux[i, indrange] / np.polyval(linecoeff, w[indrange].value)
     return w[indrange], f
 
-wcaII, fcaII = region_around_line(wavelength, flux, [[3925 * u.AA, 3930 * u.AA], [3938 * u.AA, 3945 * u.AA]])
+wcaII, fcaII = region_around_line(wavelength, flux, 
+                                  [[3925 * u.AA, 3930 * u.AA], 
+                                   [3938 * u.AA, 3945 * u.AA]])
 
 # calculate the equivalent width in Angstroms of the emission line for the first spectrum
-ew = fcaII[0, :] - 1. # ?? how can subtract the number from array??
+ew = fcaII[0, :] -1. # ?? how can subtract the number from array??
 ew = ew[:-1] * np.diff(wcaII.to(u.AA).value) # ?? metrix complication or just complication??
 print(ew.sum()) # not 19.37760714447237... -> 20.21238214515653
 
@@ -386,6 +394,7 @@ plt.draw()
 '''
 # shift a little for plotting purposes
 pplot = delta_p.copy().value
+pplot[ind2] -= 1.5
 # image goes from x1 to x2, but really x1 should be middle of first pixel
 delta_t = np.median(np.diff(delta_p)) / 2. # numpy.median : calculate the median along the specified axis and return the median of the array elements
 delta_x = np.median(np.diff(x)) / 2.
