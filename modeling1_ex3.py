@@ -27,7 +27,7 @@ x3 = np.linspace(0, 3, N3)
 y3 = 5.0 * np.sin(2 * np.pi * x3)
 y3 = np.array([y_point + np.random.normal(0, 1) for y_point in y3])
 sigma = 1.5
-y3_err = np.ones(N) * sigma
+y3_err = np.ones(N3) * sigma
 
 
 plt.errorbar(x3, y3, yerr = y3_err, fmt = 'k.')
@@ -51,16 +51,34 @@ print('Phase : {} +\- {}'.format(best_fit_sine.phase.value, np.sqrt(cov_diag[2])
 def calc_reduced_chi_square(fit, x, y, yerr, N, n_free):
     return 1.0 / (N - n_free) * sum(((fit - y)/ yerr)**2)
 
-reduced_chi_squared = calc_reduced_chi_square(best_fit_sine(x3), x3, y3, y3_err, N3, 3)
+reduced_chi_squared = calc_reduced_chi_square(best_fit_sine(x3), x3, y3, y3_err, N3, 4)
 print('Reduced Chi Squared with LevMarLSQFitter : {}'.format(reduced_chi_squared))
 
-fitter_sine_2 = fitting.SimplexLSQFitter()
-best_fit_sine_2 = fitter_sine_2(model_sine, x3, y3, weights = 1.0 / y3_err**2)
+#fitter_sine_2 = fitting.SimplexLSQFitter()
+#best_fit_sine_2 = fitter_sine_2(model_sine, x3, y3, weights = 1.0 / y3_err**2)
 
+#reduced_chi_squared_2 = calc_reduced_chi_square(best_fit_sine_2(x3), x3, y3, y3_err, N3, 4)
+#print('Reduced Chi Squared with SimplexLSQFitter : {}'.format(reduced_chi_squared_2))
+
+fitter_sine_3 = fitting.SLSQPLSQFitter()
+best_fit_sine_3 = fitter_sine_3(model_sine, x3, y3, weights = 1.0 / y3_err**2)
+
+reduced_chi_squared_3 = calc_reduced_chi_square(best_fit_sine_3(x3), x3, y3, y3_err, N3, 4)
+print('Reduced Chi Squared with SLSQPLSQFitter : {}'.format(reduced_chi_squared_3))
+
+print(best_fit_sine)
+print(best_fit_sine_2)
+print(best_fit_sine_3)
+'''
+ If the consquence of the Reduced Chi Square is closer to one, the fit is better.
+ 
+
+'''
 
 plt.errorbar(x3, y3, yerr = y3_err, fmt = 'k.')
 plt.plot(x3, best_fit_sine(x3), 'r', linewidth = 6, label = 'LevMarLSQFitter')
-plt.plot(x3, best_fit_sine_2(x3), color = 'g', linewidth = 3, label = 'SimplexLSQFitter')
+#plt.plot(x3, best_fit_sine_2(x3), color = 'g', linewidth = 5, label = 'SimplexLSQFitter')
+plt.plot(x3, best_fit_sine_3(x3), color = 'b', linewidth = 3, label = 'SLSQPLSQFitter')
 plt.xlabel(r'$\log_{10}$(Period [days])')
 plt.ylabel('Ks')
 plt.legend()
