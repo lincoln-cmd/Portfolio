@@ -2,9 +2,15 @@
 
 # from : https://learn.astropy.org/rst-tutorials/color-excess.html?highlight=filtertutorials
 # install the subsidary modules synphot, dus_extinction, astroquery
-# Synthetic Photometry(synphot) document : https://synphot.readthedocs.io/en/latest/#installation-and-setup
+
 import matplotlib.pyplot as plt
 %matplotlib inline
+
+'''
+ - about Synthetic Photometry(synphot) document : https://synphot.readthedocs.io/en/latest/#installation-and-setup
+ - 
+'''
+
 
 '''
 성간 물질 : interstellar medium(ISM)
