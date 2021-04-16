@@ -54,6 +54,7 @@ print(units_wavelength_full)
 units_wavelength = units_wavelength_full[36:]
 print(units_wavelength)
 
+'''
 # plot the spectrum graph
 plt.plot(lam, flux, color = 'k')
 plt.xlim(6300, 6700)
@@ -61,3 +62,83 @@ plt.axvline(x = 6563, linestyle = '--')
 plt.xlabel('Wavelength ({})'.format(units_wavelength))
 plt.ylabel('Flux ({})'.format(units_flux))
 plt.show()
+'''
+
+'''
+ - Fit an Emission Line with a Gaussian Model
+ The blue dashed line marks the Hα emission line.
+ Measure the height of this line by utilizingthe 'astropy.modeling' to fit a gaussian to the Hα line.
+Firstly, initialize a gaussian model at the position of the Hα.
+'''
+gaussian_model = models.Gaussian1D(1, 6563, 10)
+fitter = fitting.LevMarLSQFitter()
+gaussian_fit = fitter(gaussian_model, lam, flux)
+
+plt.figure(figsize = (8, 5))
+plt.plot(lam, flux, color = 'k')
+plt.plot(lam, gaussian_fit(lam), color = 'darkorange')
+plt.xlim(6300, 6700)
+plt.xlabel('Wavelength (Angstroms)')
+plt.ylabel('Flux ({})'.format(units_flux))
+plt.show()
+
+print(gaussian_fit)
+
+
+'''
+ - Compound models
+ Merely utilizing one model in above plot to measure the height of the Hα line is not enough to make this fit work, so
+the combination of the models is required, which is the compound model in astropy. This allows to add, divide or multiply models that
+already exist in 'astropy.modeling'.
+ Combine the gaussian model with a polynomial one of degree 1 to account for the background spectrum close to the Hα line.
+ 
+'''
+# make the compound model
+compound_model = models.Gaussian1D(1, 6563, 10) + models.Polynomial1D(degree = 1)
+fitter = fitting.LevMarLSQFitter()
+compound_fit = fitter(compound_model, lam, flux)
+
+plt.figure(figsize = (8, 5))
+plt.plot(lam, flux, color = 'k')
+plt.plot(lam, compound_fit(lam), color = 'darkorange')
+plt.xlim(6300, 6700)
+plt.xlabel('Wavelength (Angstroms)')
+plt.ylabel('Flux ({})'.format(units_flux))
+plt.show()
+
+print(compound_fit)
+
+for x, y in zip(compound_fit.param_names, compound_fit.parameters): print(x, y)
+# this shows the not only the fit parameters from the gaussian(mean, std, and amplitude), but also shows the two coefficients from the polynomial of degree 1(c0_1, c0_2)
+
+print(compound_fit.amplitude_0)
+
+'''
+ - about fixed parameters : https://docs.astropy.org/en/stable/api/astropy.modeling.Parameter.html#astropy.modeling.Parameter.fixed
+'''
+
+compound_model_fixed = models.Gaussian1D(1, 6563, 10) + models.Polynomial1D(degree = 1)
+compound_model_fixed.mean_0.fixed = True # utilizing the fixed parameter to fit the data
+fitter = fitting.LevMarLSQFitter()
+compound_fit_fixed = fitter(compound_model_fixed, lam, flux)
+
+plt.figure(figsize = (8, 5))
+plt.plot(lam, flux, color = 'k')
+plt.plot(lam, compound_fit_fixed(lam), color = 'darkorange')
+plt.xlim(6300, 6700)
+plt.xlabel('Wavelength (Angstroms)')
+plt.ylabel('Flux ({})'.format(units_flux))
+plt.show()
+# in the above plot, the height of the fit does not match the Hα line's height. This is because the too strict with the mean value cannot make good fit. However,
+#the location of the height of the Hα line is matched.
+
+'''
+ - about minimum and maximum value : https://docs.astropy.org/en/stable/api/astropy.modeling.Parameter.html#astropy.modeling.Parameter.max
+'''
+
+print(compound_fit_fixed)
+
+# let's loosen this condition a little
+
+
+
