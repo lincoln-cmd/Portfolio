@@ -101,4 +101,92 @@ plt.show()
 
 
 
+'''
+ - Modify the value of delta to change the minimum and maximum values for the mean of the gaussian.
+ 
+'''
+compound_model_bounded = models.Gaussian1D(1, 6563, 10) + models.Polynomial1D(degree = 1)
+delta = 4e100
+compound_model_bounded.mean_0.max = 6563 + delta
+compound_model_bounded.mean_0.min = 6563 - delta
+
+fitter = fitting.LevMarLSQFitter()
+compound_fit_bounded = fitter(compound_model_bounded, lam, flux)
+
+plt.figure(figsize = (8, 5))
+plt.plot(lam, flux, color = 'k')
+plt.plot(lam, compound_fit_bounded(lam), color = 'darkorange')
+plt.xlim(6300, 6700)
+plt.xlabel('Wavelength (Angstroms)')
+plt.ylabel('Flux ({})'.format(units_flux))
+plt.show()
+
+
+'''
+ - Modify the initial conditions of the fit and check the relation between the best fit parameters
+and the initial condition for the previous example. It is possible by utilizing the Reduced Chi-Squared equation and function.
+If the result value is closer to the 1, the fit is better.
+
+'''
+# test1
+x1 = np.linspace(0, 10, 100)
+
+a = 10
+b = -4
+c = 3
+y1 = a * np.cosh(x1 + np.tan(b) + c**2)
+y1 += np.random.normal(0., 2., x1.shape)
+y1_err = np.ones(x1.shape) ** 0.3336
+
+plt.errorbar(x1, y1, yerr = y1_err, fmt = '.')
+plt.show()
+
+@custom_model
+def custom_test(x, a = 5., b = -2., c = 2):
+    return a * np.cosh(x1 + np.tan(b) + c**2)
+
+test_model = custom_test(10., -4., 3.)
+fitter = fitting.LevMarLSQFitter()
+test_fit = fitter(test_model, x1, y1, weights = 1.0 / y1_err**2)
+
+plt.errorbar(x1, y1, yerr = y1_err, fmt = '.')
+plt.plot(x1, test_fit(x1))
+plt.show()
+
+# test2
+
+x2 = np.linspace(0, 10, 100)
+
+a = 10
+b = -4
+c = 3
+y2 = a**4 * np.sqrt(np.cos(a * np.tanh(x2) + c))
+y2_err = np.ones(x2.shape) ** 0.8
+
+plt.errorbar(x2, y2, yerr = y2_err, fmt = '.')
+plt.show()
+
+def custom_test2(x, a = 10., b = -4., c = 3.):
+    return a**4 * np.sqrt(np.cos(a * np.tanh(x2) + c))
+
+test_model_2 = custom_test2(10., -4., 3.)
+fitter = fitting.LevMarLSQFitter()
+test_fit_2 = fitter(test_model_2, x2, y2, weights = 1.0 / y2_err**2)
+
+plt.errorbar(x2, y2, yerr = y2_err, fmt = '.')
+plt.plot(x2, test_model_2(x2))
+plt.show()
+
+# test3
+
+x3 = np.linspace(0, 10, 100)
+
+a = 10
+b = -4
+c = 3
+y3 = a * (1.0 / ((np.e**x3 + e**(-x3)) / 2))
+y2_err = np.ones(x3.shape) ** 0.2
+
+def sech(x, a = 10., b = -4., c = 3.):
+    return a * (1.0 / ((np.e**x + e**(-x)) / 2))
 

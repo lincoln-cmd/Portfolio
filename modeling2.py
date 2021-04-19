@@ -122,6 +122,7 @@ compound_model_fixed.mean_0.fixed = True # utilizing the fixed parameter to fit 
 fitter = fitting.LevMarLSQFitter()
 compound_fit_fixed = fitter(compound_model_fixed, lam, flux)
 
+
 plt.figure(figsize = (8, 5))
 plt.plot(lam, flux, color = 'k')
 plt.plot(lam, compound_fit_fixed(lam), color = 'darkorange')
@@ -139,6 +140,80 @@ plt.show()
 print(compound_fit_fixed)
 
 # let's loosen this condition a little
+
+compound_model_bounded = models.Gaussian1D(1, 6563, 10) + models.Polynomial1D(degree = 1)
+delta = 0.5
+compound_model_bounded.mean_0.max = 6563 + delta
+compound_model_bounded.mean_0.min = 6563 - delta
+
+fitter = fitting.LevMarLSQFitter()
+compound_fit_bounded = fitter(compound_model_bounded, lam, flux)
+
+plt.figure(figsize = (8, 5))
+plt.plot(lam, flux, color = 'k')
+plt.plot(lam, compound_fit_bounded(lam), color = 'darkorange')
+plt.xlim(6300, 6700)
+plt.xlabel('Wavelength (Angstroms)')
+plt.ylabel('Flux ({})'.format(units_flux))
+plt.show()
+
+print(compound_fit_bounded)
+
+'''
+ - Custom model
+ The Astropy provides the another tool to create the model when we face the models astropy.modeling does not offer.
+ 
+ - about custom model : https://docs.astropy.org/en/stable/api/astropy.modeling.custom_model.html
+'''
+# basic custom model (with regard to the exponential model)
+x1 = np.linspace(0, 10, 100)
+
+a = 3
+b = -2
+c = 0
+y1 = a * np.exp(b * x1 + c)
+y1 += np.random.normal(0., 0.2, x1.shape)
+y1_err = np.ones(x1.shape) * 0.2
+
+plt.errorbar(x1, y1, yerr = y1_err, fmt = '.')
+plt.show()
+
+@custom_model
+def exponential(x, a = 1., b = 1., c = 1.):
+    '''
+    f(x) = a * exp(b * x + c)
+    '''
+    return a * np.exp(b * x + c)
+
+exp_model = exponential(1., -1., 1.)
+fitter = fitting.LevMarLSQFitter()
+exp_fit = fitter(exp_model, x1, y1, weights = 1.0 / y1_err**2)
+
+plt.errorbar(x1, y1, yerr = y1_err, fmt = '.')
+plt.plot(x1, exp_fit(x1))
+plt.show()
+
+print(exp_fit)
+
+'''
+ - about reduced chi-squared statistic(Wikipedia) : https://en.wikipedia.org/wiki/Reduced_chi-squared_statistic
+ - about chi-squared distribution : https://ko.wikipedia.org/wiki/%EC%B9%B4%EC%9D%B4%EC%A0%9C%EA%B3%B1_%EB%B6%84%ED%8F%AC
+'''
+# check the parameters and the reduced chi-squared value, which provides the information about the goodness of the fit
+def calc_reduced_chi_square(fit, x, y, yerr, N, n_free):
+    '''
+    fit(array) : values for the fit
+    x, y, yerr (array) : data
+    N : total number of points
+    n_free : the number of parameters we are fitting
+    '''
+    return 1.0 / (N - n_free) * sum(((fit - y) / yerr)**2)
+
+print('the goodness of the fit : {}'.format(calc_reduced_chi_square(exp_fit(x1), x1, y1, y1_err, len(x1), 3)))
+# !!! The fits of non-linear parameters are extremely dependent on initial conditions
+# the closer the value of the Reduced Chi-Squared value to 1, the higher the fit's accuracy
+
+
 
 
 
