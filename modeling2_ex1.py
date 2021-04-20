@@ -161,6 +161,7 @@ a = 10
 b = -4
 c = 3
 y2 = a**4 * np.sqrt(np.cos(a * np.tanh(x2) + c))
+y2 += np.random.normal(0., 0.5, x2.shape)
 y2_err = np.ones(x2.shape) ** 0.8
 
 plt.errorbar(x2, y2, yerr = y2_err, fmt = '.')
@@ -176,7 +177,7 @@ test_fit_2 = fitter(test_model_2, x2, y2, weights = 1.0 / y2_err**2)
 plt.errorbar(x2, y2, yerr = y2_err, fmt = '.')
 plt.plot(x2, test_model_2(x2))
 plt.show()
-
+'''
 # test3
 
 x3 = np.linspace(0, 10, 100)
@@ -185,8 +186,10 @@ a = 10
 b = -4
 c = 3
 y3 = a * (1.0 / ((np.e**x3 + e**(-x3)) / 2))
+y3 += np.random.normal(0., 0.5, x3.shape)
 y2_err = np.ones(x3.shape) ** 0.2
 
 def sech(x, a = 10., b = -4., c = 3.):
     return a * (1.0 / ((np.e**x + e**(-x)) / 2))
+'''
 
