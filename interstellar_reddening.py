@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 
 '''
  - about Synthetic Photometry(synphot) document : https://synphot.readthedocs.io/en/latest/#installation-and-setup
+ - about Bessell & Murphu : https://ui.adsabs.harvard.edu/abs/2012PASP..124..140B/abstract
  - 
 '''
 
