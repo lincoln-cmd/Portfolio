@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 '''
  - about Synthetic Photometry(synphot) document : https://synphot.readthedocs.io/en/latest/#installation-and-setup
  - about Bessell & Murphu : https://ui.adsabs.harvard.edu/abs/2012PASP..124..140B/abstract
- - 
+ - 천문학 및 천체물리학 15장(pdf) : file:///C:/Users/sbs/Downloads/%EC%B2%9C%EB%AC%B8%ED%95%99%20%EB%B0%8F%20%EC%B2%9C%EC%B2%B4%EB%AC%BC%EB%A6%AC%ED%95%99%2015%EC%9E%A5_%EC%88%98%EC%A0%95.pdf
+ - interstellar dust and extiction(pdf) : http://w.astro.berkeley.edu/~ay216/08/NOTES/Lecture05-08.pdf
 '''
 
 
