@@ -50,7 +50,7 @@ A\sub lambda \nosupersub = -2.5 log\sub 10\nosupersub [I(\f1\'eb\f0 ) / I\sub 0\
 \pard\sa200\sl276\slmult1\nosupersub  \fs20 Integrate above equation along the line-of-sight\par
 \par
 
-\pard\sa200\sl276\slmult1\qc\f1\fs24\lang18\'f4\sub\f0\lang1042 lambda\nosupersub  = - In(F\sub lambda \nosupersub / F\sub lambda, 0\-\nosupersub )\par
+\pard\sa200\sl276\slmult1\qc\f1\fs24\lang18\'f4\sub\f0\lang1042 lambda\nosupersub  = - ln(F\sub lambda \nosupersub / F\sub lambda, 0\-\nosupersub )\par
 \par
 
 \pard\sa200\sl276\slmult1  \fs20 Change the base from e to 10\par
@@ -80,20 +80,87 @@ A\sub lambda \nosupersub = -2.5 log\sub 10\nosupersub [I(\f1\'eb\f0 ) / I\sub 0\
 (B-V)\sub 0\nosupersub  : true colour index )\par
 
 \pard\sa200\sl276\slmult1  It is possible to expect that the more interstellar medium such as dust grains, the more pronounced the reddening and the higher the extinction effect. This is because the dust grains and the starlights are the extricable linked each other, which means that it is inevitable that the starlight aheading to the observer from distant star cannot help being constrained by the dust grains. The extinction and reddening equation is  :\par
+\par
 
 \pard\sa200\sl276\slmult1\qc\fs24 A\sub v \nosupersub = 3.2E(B-V)\par
 \fs20 (A\sub v \nosupersub : the extinction measured in the V band)\par
+\par
 
 \pard\sa200\sl276\slmult1  The distance equation is that : \par
+\par
 
 \pard\sa200\sl276\slmult1\qc\fs24 d = 10\super 0.2(m - M + 5 - A\sub v\super )\nosupersub  [pc]\par
+\par
 
 \pard\sa200\sl276\slmult1\fs20  In this equation, it is possible to compute the magnitude of the loss light by subtracting the extinction in the exponent of this equation.\par
 \par
  4. Optical depth\par
- \par
+ The optical depth of a material is denoted \f1\lang1042\'f4\f0  and given by\par
 \par
+
+\pard\sa200\sl276\slmult1\qc\f1\fs24\'f4\f0  = ln(\f1\'d6\sub\f0 e\super i\nosupersub  / \f1\'d6\sub\f0 e\super t\nosupersub ) = -lnT\fs20\par
+\lang18 (\f1\'d6\sub\f0\lang1042 e\super i\nosupersub  : the radiant flux received by the material,\par
+\f1\lang18\'d6\sub\f0\lang1042 e\super t\nosupersub  : the radiant flux transmitted by the material,\par
+T : the transmittance of the material)\par
+\par
+\fs24 T\super -1\nosupersub  = \f1\'d6\sub\f0 e\super i\nosupersub  / \f1\'d6\sub\f0 e\super t\nosupersub\par
+T = \f1\'d6\sub\f0 e\super t\nosupersub  / \f1\'d6\sub\f0 e\super i\par
+\fs20\par
+
+\pard\sa200\sl276\slmult1  \nosupersub The spectral optical depth in frequency and in wavelength is that\par
+\par
+
+\pard\sa200\sl276\slmult1\qc\f1\fs24\'f4\sub\f0 v\nosupersub  = ln(\f1\'d6\sub\f0 e,v\super i\nosupersub  / \f1\'d6\sub\f0 e,v\super t\nosupersub ) = -lnT\sub v\nosupersub\par
+\f1\'f4\sub\f0 lambda\nosupersub  = ln(\f1\'d6\sub\f0 e,lambda\super i\nosupersub  / \f1\'d6\sub\f0 e,lambda\super t\nosupersub ) = -lnT\sub lambda  \nosupersub\fs20 (lambda = \f1\'eb\f0 )\par
+\par
+(\f1\'d6\sub\f0 e,v\super i\nosupersub  : the spectral radiant flux in frequency received by the material,\par
+\f1\'d6\sub\f0 e,v\super t\nosupersub  : the spectral radiant flux in frequency transmitted by the material,\par
+\f1\'d6\sub\f0 e,lambda\super i\nosupersub  : the spectral radiant flux in wavelength received by the material,\par
+\f1\'d6\sub\f0 e,lambda\super t\nosupersub  : the spectral radiant flux in wavelength transmitted by the amterial\par
+T\sub v \nosupersub : the spectral transmittance in frequency of the material,\par
+T\sub lambda\nosupersub  : the spectral transmittance in wavelength of the material)\par
+\par
+
+\pard\sa200\sl276\slmult1  The relationship the spectral optical depth with the spectral absorbance can be denoted with following equation : \par
+
+\pard\sa200\sl276\slmult1\qc\f1\fs24\'f4\sub\f0 v\nosupersub  = A\sub v\nosupersub ln10\par
+\f1\'f4\sub\f0 lambda\nosupersub  = A\sub v\nosupersub ln10\par
+\fs20 (A\sub v\nosupersub  : the spectral absorbance in frequency,\par
+A\sub lambda\nosupersub  : the spectral absorbance in wavelength)\par
+\par
+
+\pard\sa200\sl276\slmult1  \fs24\lang18\par
+\fs20\par
  5. The relationship between optical depth and attenuation\par
- \par
+ The attenuation of transmitted radiant power in metarial can be measured by utilizing the optical depth. This can be caused by absorption, reflection, scattering, and other physical processes. The optical depth is approximately comparable with its attenuation when both the absorbance is less than 1 and the emittance of the material is also much less than optical depth.\par
+\par
+
+\pard\sa200\sl276\slmult1\qc\f1\fs24\lang1042\'d6\sub\f0 e\super t\nosupersub  + \f1\'d6\sub\f0 e\super a\nosupersub  = \f1\'d6\sub\f0 e\super i\nosupersub  + \f1\'d6\sub\f0 e\super e\nosupersub\par
+T + A = 1 + E\par
+\fs20 (\f1\'d6\sub\f0 e\super t\nosupersub  : the radiant power transmitted by the material,\par
+\f1\'d6\sub\f0 e\super a\nosupersub  : the radiant power attenuated by the material,\par
+\f1\'d6\sub\f0 e\super i\nosupersub  : the radiant power received by th material,\par
+\f1\'d6\f0\-\sub e\super e\nosupersub  : the radiant power emitted by the material)\par
+\par
+
+\pard\sa200\sl276\slmult1  The attenunace and emittance is\par
+
+\pard\sa200\sl276\slmult1\qc\fs24 A = \f1\'d6\sub\f0 e\super a\nosupersub  / \f1\'d6\sub\f0 e\super i\nosupersub  \fs20 (attenuance of the material)\par
+\fs24 E = \f1\'d6\sub\f0 e\super e\nosupersub  / \f1\'d6\sub\f0 e\super i\nosupersub  \fs20 (emittance of the material)\par
+
+\pard\sa200\sl276\slmult1  According to the optical depth equation of the material, the transmittance of the material can be denoted with \f1\fs24\'f4\par
+
+\pard\sa200\sl276\slmult1\qc\f0 T = e\super ^-\nosupersub\f1\'f4\par
+
+\pard\sa200\sl276\slmult1\f0  \fs20 This can be imporved by Beer-Lamber law. Therefore, the attenuance of the material is\par
+
+\pard\sa200\sl276\slmult1\qc\fs24 A = 1 - e^-\f1\'f4\f0  + E\par
+
+\pard\sa200\sl276\slmult1  \fs20 Approximately,\par
+
+\pard\sa200\sl276\slmult1\qc\f1\fs24\'f4\f0  + E -> \f1\'f4\f0  (\f1\'f4\f0  <<1 and E << \f1\'f4\f0 )\f1\par
+\par
+\par
+\f0\fs20\lang18\par
 }
  
