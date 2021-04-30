@@ -216,17 +216,45 @@ l : the path length which light is traveling)\par
 \pard\sa200\sl240\slmult1\qc\fs24 T = e^-(l \f1\lang1042\'d3\sub\f0 i=1\super N\nosupersub  \f1\'f3\sub\f0 i\nosupersub n\sub i\nosupersub ) = 10^-(l \f1\'d3\sub\f0 i=1\super N \nosupersub\f1\'e5\sub\f0 i\nosupersub c\sub i\nosupersub )\par
 \par
 
-\pard\sa200\sl240\slmult1\fs20 Thus, with regard to the optical depth \f1\'f4\f0\fs24  \fs20 and absorbance A, in comparable condition with above one, the equations also can be defined\par
+\pard\sa200\sl240\slmult1\fs20  Thus, with regard to the optical depth \f1\'f4\f0\fs24  \fs20 and absorbance A, in comparable condition with above one, the equations also can be defined\par
 \par
 
 \pard\sa200\sl240\slmult1\qc\f1\fs24\'f4\f0  = l \f1\'d3\sub\f0 i=1\super N\nosupersub  \f1\'f3\sub\f0 i\nosupersub n\sub i\par
 \nosupersub A =\sub  \nosupersub l\sub  \nosupersub\f1\'d3\sub\f0 i=1\super N\nosupersub  \f1\'e5\sub\f0 i\nosupersub c\sub i\nosupersub\lang18\par
 
 \pard\sa200\sl240\slmult1\fs20\par
+ The beer-lambert law can be break down if the concentration is very high or the material is highly scattering. To maintain the linearity in the beer-lamber law, the absorbance should maintain the value between 0.2 with 0.5. If not, the non-linear optical processes can be caused.\par
+ Moreover, the absorbance and the optical depth can be defined with the attenuation coefficient like this\par
+
+\pard\sa200\sl240\slmult1\qc\f1\fs24\'ec\f0\lang1042 (z) = \f1\'d3\sub\f0 i=1\super N\nosupersub   \f1\lang18\'ec\sub\f0\lang1042 i\nosupersub (z) = \f1\'d3\sub\f0 i=1\super N\nosupersub  \f1\'f3\sub\f0 i\nosupersub n\sub i\nosupersub (z)\par
+\f1\lang18\'ec\sub\f0\lang1042 10\nosupersub (z) = \f1\'d3\sub\f0 i=1\super N\nosupersub   \f1\lang18\'ec\sub\f0\lang1042 10,i\nosupersub (z) = \f1\'d3\sub\f0 i=1\super N \nosupersub\f1\'e5\sub\f0 i\nosupersub c\sub i\nosupersub (z)\par
 \par
+\fs20 (\f1\lang18\'ec\f0\lang1042  : attenuation coefficient which is also called as Napierian attenuation coefficient,\par
+\f1\lang18\'ec\sub\f0\lang1042 10\nosupersub  : decadic attenuation coefficient = \f1\lang18\'ec\f0\lang1042  / ln10)\par
 \par
+
+\pard\sa200\sl240\slmult1  According to the above definition of attenuation cross section and molar attenuation coefficient, the Beer-Lambert Law also can be expressed like this\par
 \par
+
+\pard\sa200\sl240\slmult1\qc\fs24 T = e^(-\'a1\'f2\sub 0\super l\nosupersub  \f1\lang18\'ec\f0\lang1042 (z) dz) = 10^(- \'a1\'f2\sub 0\super l\nosupersub  \f1\lang18\'ec\sub\f0\lang1042 10\nosupersub (z) dz) \par
+\f1\'f4\f0  = \'a1\'f2\sub 0\super l\nosupersub  \f1\lang18\'ec\f0\lang1042 (z) dz\par
+A = \'a1\'f2\sub 0\super l\nosupersub  \f1\lang18\'ec\sub\f0\lang1042 10\nosupersub (z) dz\par
+\fs20\lang18\par
+
+\pard\sa200\sl240\slmult1  If the attenuation is uniform, the each relation of transmittance, optical depth, and absorbance with attenuation coefficient and the decadic attenuation coefficient becomes\par
 \par
+
+\pard\sa200\sl240\slmult1\qc\fs24 T = e^(\f1\'ec\f0\lang1042 l) = 10^(-\f1\lang18\'ec\sub\f0\lang1042 10\nosupersub l)\par
+\f1\'f4\f0  = \f1\lang18\'ec\f0\lang1042 l\par
+A = \f1\lang18\'ec\sub\f0\lang1042 10\nosupersub l\par
+\par
+
+\pard\sa200\sl240\slmult1\fs20  If the Beer-Lambert Law's equation is defined with the intensity :\par
+\fs24\par
+
+\pard\sa200\sl240\slmult1\qc\lang18 I(z) = I\sub 0\nosupersub (z) e^(-\f1\'ec\f0\lang1042 z)\fs20\lang18\par
+
+\pard\sa200\sl240\slmult1\par
 \par
 \par
 
