@@ -255,10 +255,53 @@ A = \f1\lang18\'ec\sub\f0\lang1042 10\nosupersub l\par
 \pard\sa200\sl240\slmult1\qc\lang18 I(z) = I\sub 0\nosupersub (z) e^(-\f1\'ec\f0\lang1042 z)\fs20\lang18\par
 
 \pard\sa200\sl240\slmult1\par
-\par
+ When it comes to the derivation of the Beer-Lambert Law, when the lihgt beam enters the material, if z is an axis parallel to the direction of the beam, the radiant flux of the light emerging from the thin part of the dz is reduced because of the entered light. The amount of this reduce value is d\f1\'d6\sub\f0\lang1042 e\nosupersub (z) = -\f1\'ec\f0 (z)\f1\'d6\sub\f0 e\nosupersub (z), where \f1\'ec\f0  is tha attenuation coefficient. From this equation, following equation is yielded\par
 \par
 
+\pard\sa200\sl240\slmult1\qc\fs24 d\f1\'d6\sub\f0 e\nosupersub (z) / dz = -\f1\'ec\f0 (z)\f1\'d6\sub\f0 e\nosupersub (z)\par
+\par
+[d\f1\'d6\sub\f0 e\nosupersub (z) e^(\'a1\'f2\sub 0\super z\nosupersub  \f1\'ec\f0 (z')dz') / dz] + \f1\'ec\f0 (z)\f1\'d6\sub\f0 e\nosupersub (z) e^(\'a1\'f2\sub 0\super z \nosupersub\f1\'ec\f0 (z')dz') = 0\par
+d(\f1\'d6\sub\f0 e\nosupersub (z) e^(\'a1\'f2\sub 0\super z \nosupersub\f1\'ec\f0 (z')dz')) / dz = 0\par
+
+\pard\sa200\sl240\slmult1\fs20\par
+ The attenuation is caused by the photons, but it does not make it to the other side of the slice because of the scattering of absorption.\par
+ If integrating both sides of above equation and solving for \f1\'d6\sub\f0 e\nosupersub  for a material for real thickness l, with the incident radiant flux upon the slice \f1\'d6\sub\f0 e\super i\nosupersub  = \f1\'d6\sub\f0 e\nosupersub (0) and the transmitted radiant flux \f1\'d6\sub\f0 e\super t\nosupersub  = \f1\'d6\sub\f0 e\nosupersub (l), the equation is\par
+
 \pard\sa200\sl240\slmult1\qc\par
+\f1\fs24\'d6\sub\f0 e\super t\nosupersub  = \f1\'d6\sub\f0 e\super i\nosupersub  e^(-\'a1\'f2\sub 0\super l \nosupersub\f1\'ec\f0 (z)dz)\par
+\par
+T = \f1\'d6\sub\f0 e\super t\nosupersub  / \f1\'d6\sub\f0 e\super i\nosupersub  = e^(-\'a1\'f2\sub 0\super l \nosupersub\f1\'ec\f0 (z)dz)\lang18\par
+= e^(\lang1042 -\'a1\'f2\sub 0\super l \nosupersub ln10 \f1\'ec\sub\f0 10\nosupersub (z)dz) = [e^(-\'a1\'f2\sub 0\super l\nosupersub  \f1\'ec\sub\f0 10\nosupersub (z)dz]\super ln10\nosupersub  = 10^(-\'a1\'f2\sub 0\super l\nosupersub  \f1\'ec\sub\f0 10\nosupersub (z)dz)\par
+\par
+\fs20 (\f1\'ec\sub\f0 10 = \nosupersub\f1\'ec\f0  / ln10)\par
+\par
+
+\pard\sa200\sl240\slmult1  The attenuation coefficient can be described with attenuation cross section than napierian attenuation coefficient \f1\'ec\f0 .\par
+\par
+
+\pard\sa200\sl240\slmult1\qc\fs24 T = e^(-\f1\'d3\sub\f0 i=1\super N\nosupersub  \f1\'f3\sub\f0 i\nosupersub  \'a1\'f2\sub 0\super l\nosupersub  n\sub i\nosupersub (z)dz)\par
+\fs20\lang18\par
+(N : attenuating species of the material sample,\par
+n\sub i\nosupersub  : density of the N)\par
+
+\pard\sa200\sl240\slmult1\par
+ The attenuation coefficient also can be described as molar attenuation coefficients equation.\par
+
+\pard\sa200\sl240\slmult1\qc\fs24 T = e^(-\f1\lang1042\'d3\sub\f0 i=1\super N\nosupersub  (ln10 / N\sub A\nosupersub )\sub  \nosupersub\f1\'e5\sub\f0 i\nosupersub  \'a1\'f2\sub 0\super l\nosupersub  n\sub i\nosupersub (z)dz)\par
+= [e^(-\f1\'d3\sub\f0 i=1\super N\nosupersub  \f1\'e5\sub\f0 i\nosupersub  \'a1\'f2\sub 0\super l\nosupersub  (n\sub i\nosupersub (z) / N\sub A\nosupersub ))]\super ln10\nosupersub\par
+= 10^(-\f1\'d3\sub\f0 i=1\super N\nosupersub  \f1\'e5\sub\f0 i\nosupersub  \'a1\'f2\sub 0\super l\nosupersub  c\sub i\nosupersub (z)dz)\lang18\par
+\fs20\par
+(\f1\lang1042\'e5\sub\f0 i\nosupersub  : the molar attenuation coefficients = (N\sub A\nosupersub  / ln10)\f1\'f3\sub\f0 i\nosupersub ,\par
+N\sub A\nosupersub  : avogadro constant = 60.22 x 10\super 23\nosupersub  mol\super -1\nosupersub ,\par
+c\sub i\nosupersub (z) : the concentration of the attenuating species of the material sample = n\sub i\nosupersub (z) / N\sub A\nosupersub )\par
+\par
+
+\pard\sa200\sl240\slmult1  \lang18\par
+
+\pard\sa200\sl240\slmult1\qc\par
+\par
+\par
+\par
 
 \pard\sa200\sl276\slmult1\qc\par
 }
