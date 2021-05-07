@@ -71,9 +71,11 @@ obsTable_spec.pprint()
 obsids = ['3000022829']
 dataProductsByID = Observations.get_product_list(obsids)
 manifest = Observations.download_products(dataProductsByID)
+print('manifestf :', manifest)
 
 # read the downloaded files into an astropy table
-t_lwr = Table.read('./mastDownload/IUE/lwr05639/lwr05639mxlo_vo.fits')
+#t_lwr = Table.read('./mastDownload/IUE/lwr05639/lwr05639mxlo_vo.fits')
+t_lwr = Table.read('./lwr05639mxlo_vo.fits')
 print(t_lwr)
 
 wav_UV = t_lwr['WAVE'][0,].quantity
