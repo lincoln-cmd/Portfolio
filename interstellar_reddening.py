@@ -12,6 +12,8 @@ import matplotlib.pyplot as plt
  - 천문학 및 천체물리학 15장(pdf) : file:///C:/Users/sbs/Downloads/%EC%B2%9C%EB%AC%B8%ED%95%99%20%EB%B0%8F%20%EC%B2%9C%EC%B2%B4%EB%AC%BC%EB%A6%AC%ED%95%99%2015%EC%9E%A5_%EC%88%98%EC%A0%95.pdf
  - interstellar dust and extiction(pdf) : http://w.astro.berkeley.edu/~ay216/08/NOTES/Lecture05-08.pdf
  - model options 'dust_extinction'(Model Flavors) : https://dust-extinction.readthedocs.io/en/latest/dust_extinction/model_flavors.html
+ - Dust attenuation, dust emission, and dust temperature in galaxies : https://watermark.silverchair.com/stz1324.pdf?token=AQECAHi208BE49Ooan9kkhW_Ercy7Dm3ZL_9Cf3qfKAc485ysgAAAqIwggKeBgkqhkiG9w0BBwagggKPMIICiwIBADCCAoQGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMVpvRcJeeGG4S-xQvAgEQgIICVQEpa-nXMwsw5JhgVske_zzmhe1tVAh9FpdUN6gNGxE8M2qcFcYNYrrzwqybceOklVy1gx-DXyrYdM8mFuIFl4kmuOGXgrApIiCNTFSaQ2QzQnd4_oLDqC1y8CN51AqM5XLslwdDnb8atdcoOMgwK2zn0fQvYTt4LfVanzWPh6EVepg2YZn4CRbnuW8KsFI8oHcrKK5hR154M7y6IFw__l1Y7rPQDYR_apZ8bF55OecJ4Em9R19odXzO1kZ6_g3xaJImJCif2MwX7ieh1BC3ULmQ097JeGV2hYdL9bZ_aNq3KrB2L75W1ryYpMDNF1GeRP1_q7bIrTOWrvvQ59ojWqjtkLZbOCarVfyFVFt1A4ZSnIFDIcws3-bXEYr3As6wCd8KzjRXrEl2Rl4IzbjbzW0SZB5Y4RtB5OzU2lzAwlvIfcnCLIKdevfxSPKiVYcyh8MdSPnVKEBFqDR5v6OSCUUCMbw9TTCfe9zei6tiwMxQLOkU2S1P5w4Vr8FauvnRpGvMb-1LGvZwr5xzAmSoNfyIPnUAjgSP-E3c2jT06obkZoBQIi-1LANJhgakiO-3kGQFCQ5-TGQ-P9Tr1IecankfHLUFPJpFX_JMQX-H3yDzD-qWSVftwEd4E4IsZrz31tfrs7GktYD43q4rTfE1X6WHQA3Ej3gask7G3T1ocBKEDQaELRKZwhey_aqQkilzXcIlS5a4hyhHVVCPaiOAFNElchCazwRYY9Z2NQHp4YHGyq4ggSd5NJpWBFxpPB5bL00OT0_-8eRHbjZ209YnzdPePGKMSA
+ 
  
 '''
  
@@ -74,8 +76,8 @@ manifest = Observations.download_products(dataProductsByID)
 print('manifestf :', manifest)
 
 # read the downloaded files into an astropy table
-#t_lwr = Table.read('./mastDownload/IUE/lwr05639/lwr05639mxlo_vo.fits')
-t_lwr = Table.read('./lwr05639mxlo_vo.fits')
+t_lwr = Table.read('./mastDownload/IUE/lwr05639/lwr05639mxlo_vo.fits')
+#t_lwr = Table.read('./lwr05639mxlo_vo.fits')
 print(t_lwr)
 
 wav_UV = t_lwr['WAVE'][0,].quantity
