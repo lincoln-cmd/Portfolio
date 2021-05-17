@@ -90,6 +90,10 @@ Umag = phot_table['FLUX_U']
 Bmag = phot_table['FLUX_B']
 Vmag = phot_table['FLUX_V']
 
+'''
+ - about astroquery.simbad : https://astroquery.readthedocs.io/en/latest/simbad/simbad.html
+'''
+
 wav_U = 0.3660 * u.micron
 zeroflux_U_nu = 1.81E-23 * u.Watt / (u.m*u.m*u.Hz)
 wav_B = 0.4400 * u.micron
