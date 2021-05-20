@@ -92,6 +92,7 @@ Vmag = phot_table['FLUX_V']
 
 '''
  - about astroquery.simbad : https://astroquery.readthedocs.io/en/latest/simbad/simbad.html
+ - about convert from photometry to flux(Pogson equation) : http://ganymede.nmsu.edu/holtz/a535/ay535notes/node2.html
 '''
 
 wav_U = 0.3660 * u.micron
