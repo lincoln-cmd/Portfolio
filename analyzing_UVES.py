@@ -15,6 +15,7 @@ from : https://ui.adsabs.harvard.edu/abs/2013ApJ...771...70G/abstract
 - about T-tauri(ko) : https://ko.wikipedia.org/wiki/%ED%99%A9%EC%86%8C%EC%9E%90%EB%A6%AC_T%ED%98%95_%ED%95%AD%EC%84%B1
 - about protostar(ko) : https://ko.wikipedia.org/wiki/%EC%9B%90%EC%8B%9C%EB%B3%84
 
+- words of the mathematics and physics : https://blog.daum.net/williamockham/83
 
 '''
 
