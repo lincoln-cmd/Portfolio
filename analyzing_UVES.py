@@ -14,6 +14,10 @@ from : https://ui.adsabs.harvard.edu/abs/2013ApJ...771...70G/abstract
 - about accretion disk(eng) : https://en.wikipedia.org/wiki/Accretion_disk
 - about T-tauri(ko) : https://ko.wikipedia.org/wiki/%ED%99%A9%EC%86%8C%EC%9E%90%EB%A6%AC_T%ED%98%95_%ED%95%AD%EC%84%B1
 - about protostar(ko) : https://ko.wikipedia.org/wiki/%EC%9B%90%EC%8B%9C%EB%B3%84
+- acrretion disk pdf file : file:///C:/Users/Administrator/Downloads/review-accretion.pdf
+- acrretion disk pdf file2 : http://www.mso.anu.edu.au/~geoff/HEA/11_Accretion_Disks_II.pdf
+
+
 
 - words of the mathematics and physics : https://blog.daum.net/williamockham/83
 
@@ -26,10 +30,10 @@ import matplotlib.pyplot as plt
 # download tar files and extract the files' data
 import tarfile
 from astropy.utils.data import download_file
-#url = 'http://data.astropy.org/tutorials/UVES/data_UVES.tar.gz'
-#f = tarfile.open(download_file(url, cache = True), mode = 'r|*')
+url = 'http://data.astropy.org/tutorials/UVES/data_UVES.tar.gz'
+f = tarfile.open(download_file(url, cache = True), mode = 'r|*')
 working_dir_path = '.' # change the path
-#f.extractall(path = working_dir_path)
+f.extractall(path = working_dir_path)
 
 # analyze data from NM Lup, a T Tauri star in the Taurus-Auriga star forming region located at a distance of about 140pc
 # MN Lup has been observed simultaneously with XMM-Newton and the UVES spectrograph on the VLT
