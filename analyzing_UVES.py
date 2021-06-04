@@ -7,10 +7,11 @@
  As the accretion rate decreases, the impact on the central star must change, which means that
 the accretion rate is depended on the center of the star. Furthermore, the emission frequence is alse
 depended on the center of the star. (The accretion disk of protostar emits the infrared radiation, and
-                                     the nuetron star and blackhole emit the X-ray)
+                                in the form of heat     the nuetron star and blackhole emit the X-ray)
 from : https://ui.adsabs.harvard.edu/abs/2013ApJ...771...70G/abstract
 
 - about accretion disk(ko) : https://ko.wikipedia.org/wiki/%EA%B0%95%EC%B0%A9%EC%9B%90%EB%B0%98
+                       자유 낙하     https://naverkpsdictionary.miraheze.org/wiki/%EA%B0%95%EC%B0%A9%EC%9B%90%EB%B0%98
 - about accretion disk(eng) : https://en.wikipedia.org/wiki/Accretion_disk
 - about T-tauri(ko) : https://ko.wikipedia.org/wiki/%ED%99%A9%EC%86%8C%EC%9E%90%EB%A6%AC_T%ED%98%95_%ED%95%AD%EC%84%B1
 - about protostar(ko) : https://ko.wikipedia.org/wiki/%EC%9B%90%EC%8B%9C%EB%B3%84
