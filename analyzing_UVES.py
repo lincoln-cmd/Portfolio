@@ -17,7 +17,7 @@ from : https://ui.adsabs.harvard.edu/abs/2013ApJ...771...70G/abstract
 - about protostar(ko) : https://ko.wikipedia.org/wiki/%EC%9B%90%EC%8B%9C%EB%B3%84
 - acrretion disk pdf file : file:///C:/Users/Administrator/Downloads/review-accretion.pdf
 - acrretion disk pdf file2 : http://www.mso.anu.edu.au/~geoff/HEA/11_Accretion_Disks_II.pdf
-
+- jeans instability(ko) : https://ko.wikipedia.org/wiki/%EC%A7%84%EC%8A%A4_%EB%B6%88%EC%95%88%EC%A0%95%EC%84%B1#%EC%A7%84%EC%8A%A4_%EC%A7%88%EB%9F%89
 
 
 - words of the mathematics and physics : https://blog.daum.net/williamockham/83
