@@ -12,13 +12,13 @@ from : https://ui.adsabs.harvard.edu/abs/2013ApJ...771...70G/abstract
 
 - about accretion disk(ko) : https://ko.wikipedia.org/wiki/%EA%B0%95%EC%B0%A9%EC%9B%90%EB%B0%98
                             https://naverkpsdictionary.miraheze.org/wiki/%EA%B0%95%EC%B0%A9%EC%9B%90%EB%B0%98
-- about accretion disk(eng) : https://en.wikipedia.org/wiki/Accretion_disk
+- about accretion diJeonju sequencesk(eng) : https://en.wikipedia.org/wiki/Accretion_disk
 - about T-tauri(ko) : https://ko.wikipedia.org/wiki/%ED%99%A9%EC%86%8C%EC%9E%90%EB%A6%AC_T%ED%98%95_%ED%95%AD%EC%84%B1
 - about protostar(ko) : https://ko.wikipedia.org/wiki/%EC%9B%90%EC%8B%9C%EB%B3%84
 - acrretion disk pdf file : file:///C:/Users/Administrator/Downloads/review-accretion.pdf
 - acrretion disk pdf file2 : http://www.mso.anu.edu.au/~geoff/HEA/11_Accretion_Disks_II.pdf
 - jeans instability(ko) : https://ko.wikipedia.org/wiki/%EC%A7%84%EC%8A%A4_%EB%B6%88%EC%95%88%EC%A0%95%EC%84%B1#%EC%A7%84%EC%8A%A4_%EC%A7%88%EB%9F%89
-
+- sort of main-sequence star : https://steamcommunity.com/sharedfiles/filedetails/?id=1460382055
 
 - words of the mathematics and physics : https://blog.daum.net/williamockham/83
 
