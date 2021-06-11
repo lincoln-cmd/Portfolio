@@ -19,6 +19,12 @@ from : https://ui.adsabs.harvard.edu/abs/2013ApJ...771...70G/abstract
 - acrretion disk pdf file2 : http://www.mso.anu.edu.au/~geoff/HEA/11_Accretion_Disks_II.pdf
 - jeans instability(ko) : https://ko.wikipedia.org/wiki/%EC%A7%84%EC%8A%A4_%EB%B6%88%EC%95%88%EC%A0%95%EC%84%B1#%EC%A7%84%EC%8A%A4_%EC%A7%88%EB%9F%89
 - sort of main-sequence star : https://steamcommunity.com/sharedfiles/filedetails/?id=1460382055
+- proton-proton chain reaction(ko) : https://ko.wikipedia.org/wiki/%EC%96%91%EC%84%B1%EC%9E%90-%EC%96%91%EC%84%B1%EC%9E%90_%EC%97%B0%EC%87%84_%EB%B0%98%EC%9D%91
+- proton-proton chain reaction(eng) : https://en.wikipedia.org/wiki/Proton%E2%80%93proton_chain
+
+
+
+
 
 - words of the mathematics and physics : https://blog.daum.net/williamockham/83
 
