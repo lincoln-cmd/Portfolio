@@ -40,7 +40,7 @@ import tarfile
 from astropy.utils.data import download_file
 url = 'http://data.astropy.org/tutorials/UVES/data_UVES.tar.gz'
 f = tarfile.open(download_file(url, cache = True), mode = 'r|*')
-working_dir_path = '.' # change the path
+working_dir_path = 'C:/Users/Administrator/Desktop/donghun' # change the path
 f.extractall(path = working_dir_path)
 
 # analyze data from NM Lup, a T Tauri star in the Taurus-Auriga star forming region located at a distance of about 140pc
