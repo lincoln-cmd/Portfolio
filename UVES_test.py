@@ -5,7 +5,7 @@ import tarfile
 from astropy.utils.data import download_file
 url = 'http://data.astropy.org/tutorials/UVES/data_UVES.tar.gz'
 f = tarfile.open(download_file(url, cache = True), mode = 'r|*')
-#working_dir_path = 'C:/Users/Administrator/Desktop/donghun/AA'
+working_dir_path = 'C:/Users/Administrator/Desktop/donghun/AA'
 #f.extractall(path = working_dir_path)
 
 from glob import glob
@@ -19,5 +19,21 @@ print(globpath)
 filelist = glob(globpath)
 filelist.sort()
 
-sp = fits.open(filelist[-1])
+sp = fits.open(filelist[0])
 sp.info()
+
+header = sp[0].header
+#print('header : ', header)
+
+wcs = WCS(header)
+index = np.arange(header['NAXIS1'])
+print('index : ', index)
+
+wavelength = wcs.wcs_pix2world(index[:,np.newaxis], 0)
+print('wavelength : ', wavelength)
+print('shape : ',wavelength.shape)
+wavelength = wavelength.flatten()
+print('new shape : ', wavelength)
+
+flux = sp[0].data
+print(flux)
