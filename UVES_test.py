@@ -15,25 +15,28 @@ from astropy.wcs import WCS
 from astropy.io import fits
 
 globpath = os.path.join(working_dir_path, 'UVES/*.fits')
-print(globpath)
+#print('globpath : ', globpath)
 filelist = glob(globpath)
 filelist.sort()
 
 sp = fits.open(filelist[0])
-sp.info()
+#sp.info()
 
 header = sp[0].header
 #print('header : ', header)
 
 wcs = WCS(header)
 index = np.arange(header['NAXIS1'])
-print('index : ', index)
+#print('index : ', index)
 
 wavelength = wcs.wcs_pix2world(index[:,np.newaxis], 0)
-print('wavelength : ', wavelength)
-print('shape : ',wavelength.shape)
+#print('wavelength : ', wavelength)
+#print('shape : ',wavelength.shape)
 wavelength = wavelength.flatten()
-print('new shape : ', wavelength)
+#print('new wavelength : ', wavelength)
+#print('new shape2 : ', wavelength.shape)
 
 flux = sp[0].data
-print(flux)
+print(sp)
+print('flux : ', flux)
+print('flux shape : ', flux.shape)

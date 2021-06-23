@@ -24,6 +24,8 @@ from : https://ui.adsabs.harvard.edu/abs/2013ApJ...771...70G/abstract
 - proton-proton chain reaction(eng) : https://en.wikipedia.org/wiki/Proton%E2%80%93proton_chain
 
 
+- FITS WCS : https://www.atnf.csiro.au/people/mcalabre/WCS/
+
 
 
 
@@ -41,7 +43,7 @@ from astropy.utils.data import download_file
 url = 'http://data.astropy.org/tutorials/UVES/data_UVES.tar.gz'
 f = tarfile.open(download_file(url, cache = True), mode = 'r|*')
 working_dir_path = 'C:/Users/Administrator/Desktop/donghun' # change the path
-f.extractall(path = working_dir_path)
+#f.extractall(path = working_dir_path)
 
 # analyze data from NM Lup, a T Tauri star in the Taurus-Auriga star forming region located at a distance of about 140pc
 # MN Lup has been observed simultaneously with XMM-Newton and the UVES spectrograph on the VLT
