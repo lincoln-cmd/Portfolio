@@ -18,8 +18,9 @@ globpath = os.path.join(working_dir_path, 'UVES/*.fits')
 #print('globpath : ', globpath)
 filelist = glob(globpath)
 filelist.sort()
+print(filelist)
 
-sp = fits.open(filelist[0])
+sp = fits.open(filelist[2])
 #sp.info()
 
 header = sp[0].header
@@ -37,6 +38,8 @@ wavelength = wavelength.flatten()
 #print('new shape2 : ', wavelength.shape)
 
 flux = sp[0].data
-print(sp)
-print('flux : ', flux)
-print('flux shape : ', flux.shape)
+
+date_obs = header['Date-OBS']
+#print(date_obs)
+
+
