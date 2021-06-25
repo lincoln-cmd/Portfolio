@@ -41,5 +41,6 @@ flux = sp[0].data
 
 date_obs = header['Date-OBS']
 #print(date_obs)
+print('header : ', header)
 
 
