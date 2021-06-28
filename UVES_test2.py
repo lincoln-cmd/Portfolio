@@ -10,6 +10,11 @@ import numpy as np
 from astropy.wcs import WCS
 from astropy.io import fits
 
+url = 'http://data.astropy.org/tutorials/UVES/data_UVES.tar.gz'
+f = tarfile.open(download_file(url, cache = True), mode = 'r|*')
+working_dir_path = 'C:/Users/Administrator/Desktop/donghun/AA'
+#f.extractall(path = working_dir_path)
+
 globpath = os.path.join(working_dir_path, 'UVES/*.fits')
 #print('globpath : ', globpath)
 filelist = glob(globpath)
@@ -31,7 +36,7 @@ def read_spec(filename):
     wavelength = wcs.wcs_pix2world(index[:,np.newaxis], 0)
     wavelength = wavelength.flatten()
     
-    flux = sp[0]
+    flux = sp[0].data
     
     date_obs = header['Date-OBS']
     return wavelength, flux, date_obs
@@ -55,12 +60,18 @@ def test(filename):
     
     return header['CDELT1'], header['DATAMIN'], header['DATAMAX']
 
-print(test(filelist[11]))
+
+#for i in filelist:
+ #   print(test(i))
 
 
+flux = np.zeros((len(filelist), len(wavelength)))
+date = np.zeros((len(filelist)), dtype = 'U23')
 
-
-
-'''
-excersice
-'''
+for i, fname in enumerate(filelist):
+    w, f, date_obs = read_spec(fname)
+    flux[i,:] = f
+    date[i] = date_obs
+    print('flux{0} : {1}'.format(i, flux))
+    
+    

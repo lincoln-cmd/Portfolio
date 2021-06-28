@@ -42,7 +42,7 @@ import tarfile
 from astropy.utils.data import download_file
 url = 'http://data.astropy.org/tutorials/UVES/data_UVES.tar.gz'
 f = tarfile.open(download_file(url, cache = True), mode = 'r|*')
-working_dir_path = 'C:/Users/Administrator/Desktop/donghun' # change the path
+working_dir_path = 'C:/Users/Administrator/Desktop/donghun/AA' # change the path
 #f.extractall(path = working_dir_path)
 
 # analyze data from NM Lup, a T Tauri star in the Taurus-Auriga star forming region located at a distance of about 140pc
@@ -65,13 +65,13 @@ from astropy.io import fits
 
 globpath = os.path.join(working_dir_path, 'UVES/*.fits') # os.path.join : join two directories
 
-print(globpath)
+#print(globpath)
 filelist = glob(globpath) # search through directories similar to the Unix shell
 
 filelist.sort()
 
 # read the first FITS file in the list and check what is in there
-sp = fits.open(filelist[0])
+sp = fits.open(filelist[10])
 sp.info()
 
 # extract the WCS from header to get the wavelength coordinate.

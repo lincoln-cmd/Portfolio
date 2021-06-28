@@ -18,7 +18,7 @@ globpath = os.path.join(working_dir_path, 'UVES/*.fits')
 #print('globpath : ', globpath)
 filelist = glob(globpath)
 filelist.sort()
-print(filelist)
+#print(filelist)
 
 sp = fits.open(filelist[2])
 #sp.info()
@@ -41,6 +41,7 @@ flux = sp[0].data
 
 date_obs = header['Date-OBS']
 #print(date_obs)
-print('header : ', header)
+#print('header : ', header)
+
 
 
