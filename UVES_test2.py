@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-%matplotlib inline
+#%matplotlib inline
 
 import tarfile
 from astropy.utils.data import download_file
@@ -72,6 +72,20 @@ for i, fname in enumerate(filelist):
     w, f, date_obs = read_spec(fname)
     flux[i,:] = f
     date[i] = date_obs
-    print('flux{0} : {1}'.format(i, flux))
+    #print('flux{0} : {1}'.format(i, flux))
     
+import astropy.units as u
+from astropy.constants.si import c, G, M_sun, R_sun
+
+wavelength = wavelength * u.AA
+
+heliocentric = -23. * u.km/u.s
+v_rad = -4.77 * u.km/ u.s
+R_MN_Lup = 0.9 * R_sun
+M_MN_Lup = 0.6 * M_sun
+vsini = 74.6 * u.km / u.s
+period = 0.439 * u.day
+
+inclination = 45. * u.degree
+incl = inclination.to(u.radian)
     
