@@ -89,3 +89,11 @@ period = 0.439 * u.day
 inclination = 45. * u.degree
 incl = inclination.to(u.radian)
     
+v_accr = (2. * G * M_MN_Lup / R_MN_Lup) ** 0.5
+print(v_accr)
+print(v_accr.cgs)
+from astropy.units import imperial
+print(v_accr.to(imperial.yd / u.hour))
+
+
+
