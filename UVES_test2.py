@@ -95,5 +95,6 @@ print(v_accr.cgs)
 from astropy.units import imperial
 print(v_accr.to(imperial.yd / u.hour))
 
-
+v_rot = vsini / np.sin(incl)
+print(v_accr / v_rot)
 
