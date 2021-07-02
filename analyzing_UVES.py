@@ -24,6 +24,8 @@ from : https://ui.adsabs.harvard.edu/abs/2013ApJ...771...70G/abstract
 - proton-proton chain reaction(eng) : https://en.wikipedia.org/wiki/Proton%E2%80%93proton_chain
 
 
+- heliocentric velocity : https://www.sciencedirect.com/topics/engineering/heliocentric-velocity
+
 - FITS WCS : https://www.atnf.csiro.au/people/mcalabre/WCS/
 
 

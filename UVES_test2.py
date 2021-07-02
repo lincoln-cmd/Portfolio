@@ -90,11 +90,17 @@ inclination = 45. * u.degree
 incl = inclination.to(u.radian)
     
 v_accr = (2. * G * M_MN_Lup / R_MN_Lup) ** 0.5
-print(v_accr)
-print(v_accr.cgs)
+#print(v_accr)
+#print(v_accr.cgs)
 from astropy.units import imperial
-print(v_accr.to(imperial.yd / u.hour))
+#print(v_accr.to(imperial.yd / u.hour))
 
 v_rot = vsini / np.sin(incl)
-print(v_accr / v_rot)
+#print(v_accr / v_rot)
+#print((v_accr / v_rot).decompose())
 
+print(wavelength)
+wavelength = wavelength * (1. + heliocentric / c)
+print(wavelength)
+wavelength = wavelength * (1. * u.dimensionless_unscaled + heliocentric / c)
+print(wavelength)
