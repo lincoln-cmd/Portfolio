@@ -99,8 +99,14 @@ v_rot = vsini / np.sin(incl)
 #print(v_accr / v_rot)
 #print((v_accr / v_rot).decompose())
 
-print(wavelength)
+#print(wavelength)
 wavelength = wavelength * (1. + heliocentric / c)
-print(wavelength)
+#print(wavelength)
 wavelength = wavelength * (1. * u.dimensionless_unscaled + heliocentric / c)
-print(wavelength)
+#print(wavelength)
+
+energy = wavelength.to(u.keV, equivalencies=u.spectral())
+frequency = wavelength.to(u.Hz, equivalencies=u.spectral())
+print(energy)
+print(frequency)
+
