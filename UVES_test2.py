@@ -112,3 +112,12 @@ v_rot = vsini / np.sin(incl)
 
 gravi = np.log10((G*M_MN_Lup / R_MN_Lup**2) / u.cm*u.second**2)
 print(gravi)
+
+waveclosetoHa = np.array([6562., 6563, 6565.]) * u.AA
+
+def wave2doppler(w, w0):
+    w0_equiv = u.doppler_optical(w0)
+    w_equiv = w.to(u.km/u.s, equivalencies = w0_equiv)
+    return w_equiv
+
+print(wave2doppler(waveclosetoHa, 656.489 * u.nm).to(u.km/u.s))
