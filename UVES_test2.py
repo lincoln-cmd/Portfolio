@@ -121,3 +121,11 @@ def wave2doppler(w, w0):
     return w_equiv
 
 print(wave2doppler(waveclosetoHa, 656.489 * u.nm).to(u.km/u.s))
+
+def w2vsini1(w, w0):
+    w0_equiv = u.doppler_optical(w0)
+    w_equiv = w.to(u.km/u.s, equivalencies = w0_equiv)
+    array_of_shifts_vsini = w_equiv * np.sin(incl)
+    return array_of_shifts_vsini
+
+print(w2vsini1(waveclosetoHa, 656.489 * u.nm).to(u.km/u.s))
