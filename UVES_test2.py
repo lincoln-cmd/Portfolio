@@ -129,3 +129,14 @@ def w2vsini1(w, w0):
     return array_of_shifts_vsini
 
 print(w2vsini1(waveclosetoHa, 656.489 * u.nm).to(u.km/u.s))
+
+def w2vsini(w, w0):
+    v = wave2doppler(w, w0) - 4.77 * u.km/u.s
+    #print('v : ',v)
+    return v / vsini
+
+#print(vsini)
+print(w2vsini(waveclosetoHa, 656.489 * u.nm))
+
+from astropy.time import Time
+t1 = Time(header['MJD-Obs'], format = 'mjd', scale = 'utc')
