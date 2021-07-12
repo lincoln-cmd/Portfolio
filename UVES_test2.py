@@ -100,13 +100,13 @@ v_rot = vsini / np.sin(incl)
 #print((v_accr / v_rot).decompose())
 
 #print(wavelength)
-#wavelength = wavelength * (1. + heliocentric / c)
+wavelength = wavelength * (1. + heliocentric / c)
 #print(wavelength)
-#wavelength = wavelength * (1. * u.dimensionless_unscaled + heliocentric / c)
+wavelength = wavelength * (1. * u.dimensionless_unscaled + heliocentric / c)
 #print(wavelength)
 
-#energy = wavelength.to(u.keV, equivalencies=u.spectral())
-#frequency = wavelength.to(u.Hz, equivalencies=u.spectral())
+energy = wavelength.to(u.keV, equivalencies=u.spectral())
+frequency = wavelength.to(u.Hz, equivalencies=u.spectral())
 #print(energy)
 #print(frequency)
 
@@ -140,3 +140,17 @@ print(w2vsini(waveclosetoHa, 656.489 * u.nm))
 
 from astropy.time import Time
 t1 = Time(header['MJD-Obs'], format = 'mjd', scale = 'utc')
+t2 = Time(header['Date-Obs'], scale = 'utc')
+
+#print(t1, t1.isot, t2, t1.tt)
+
+obs_times = Time(date, scale = 'utc')
+delta_t = obs_times - Time(date[0], scale = 'utc')
+
+delta_p = delta_t.value * u.day / period
+
+print('delta_t : ', delta_t)
+print('delta_p : ', delta_p)
+
+
+
