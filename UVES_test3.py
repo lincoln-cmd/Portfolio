@@ -21,3 +21,7 @@ wcaII, fcaII = region_around_line(wavelength, flux, [[3925*u.AA, 3930*u.AA], [39
 ew = fcaII[0,:] - 1.
 ew = ew[:-1] * np.diff(wcaII.to(u.AA).value)
 print(ew.sum())
+
+delta_lam = np.diff(wcaII.to(u.AA).value)
+ew = np.sum((fcaII - 1.)[:,:-1] * delta_lam[np.newaxis, :], axis = 1)
+print(ew)
