@@ -20,8 +20,17 @@ wcaII, fcaII = region_around_line(wavelength, flux, [[3925*u.AA, 3930*u.AA], [39
 # Ca2(in code) = wavelength : 393.366nm, equivalent width : 20.21238214515653
 ew = fcaII[0,:] - 1.
 ew = ew[:-1] * np.diff(wcaII.to(u.AA).value)
-print(ew.sum())
+#print(ew.sum())
 
 delta_lam = np.diff(wcaII.to(u.AA).value)
 ew = np.sum((fcaII - 1.)[:,:-1] * delta_lam[np.newaxis, :], axis = 1)
-print(ew)
+#print(ew)
+
+from astropy.table import Column, Table
+from astropy.io import ascii
+
+datecol = Column(name = 'Obs Date', data = date)
+pcol = Column(name = 'phase', data = delta_p, format = '{:.1f}')
+ewcol = Column(name = 'EW', data = ew, format = '{:.1f}', unit = '\\AA')
+tab = Table((datecol, pcol, ewcol))
+tab.write(os.path.join(working_dir_path, 'EWtab.tex'), latexdict = ascii.latexdicts['AA'])
