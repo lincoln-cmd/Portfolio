@@ -33,4 +33,40 @@ datecol = Column(name = 'Obs Date', data = date)
 pcol = Column(name = 'phase', data = delta_p, format = '{:.1f}')
 ewcol = Column(name = 'EW', data = ew, format = '{:.1f}', unit = '\\AA')
 tab = Table((datecol, pcol, ewcol))
-tab.write(os.path.join(working_dir_path, 'EWtab.tex'), latexdict = ascii.latexdicts['AA'])
+#tab.write(os.path.join(working_dir_path, 'EWtab.tex'), latexdict = ascii.latexdicts['AA'])
+
+#tab.write(os.path.join(working_dir_path, 'EWtab.py'), latexdict = ascii.latexdicts['AA'])
+
+x = w2vsini(wcaII, 393.366 * u.nm).decompose()
+
+fig = plt.figure()
+ax = fig.add.subplot(1, 1, 1)
+ax.plot(x, fcaII[0, :], marker = '', drawstyle = 'steps-mid')
+
+
+
+
+
+
+'''
+ check the header of filelist
+'''
+#f1 = open('C:\Users\Administrator\Desktop\donghun\AA.tex', 'r')
+#lines = f1.readlines()
+#for line in lines:
+#    print(line)
+#f1.close()
+
+
+#for i in range(len(filelist)):
+ #   sp1 = fits.open(filelist[i])
+  #  head = sp1[0].header
+   # sp1.write(os.path.join(working_dir_path, 'test_filelist'), latexdict = ascii.latexdicts['AA'])
+
+
+'''
+sp2 = fits.open(filelist[0])
+head = sp2[0].header
+print(head)
+print(len(sp2)) -> 1
+'''
