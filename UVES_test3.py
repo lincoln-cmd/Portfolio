@@ -14,7 +14,7 @@ def region_around_line(w, flux, cont):
 
 wcaII, fcaII = region_around_line(wavelength, flux, [[3925*u.AA, 3930*u.AA], [3938*u.AA, 3945*u.AA]])
 #print(wcaII)
-#print(fcaII)
+#print((fcaII[0]), len(fcaII[1]), len(fcaII[-1]))
 
 # Ca2 = wavelength : 393.3682nm, line width : 2.0253nm
 # Ca2(in code) = wavelength : 393.366nm, equivalent width : 20.21238214515653
@@ -40,12 +40,31 @@ tab = Table((datecol, pcol, ewcol))
 x = w2vsini(wcaII, 393.366 * u.nm).decompose()
 
 fig = plt.figure()
-ax = fig.add.subplot(1, 1, 1)
+ax = fig.add_subplot(1, 1, 1)
 ax.plot(x, fcaII[0, :], marker = '', drawstyle = 'steps-mid')
+ax.set_xlim([-3, +3])
+ax.set_xlabel('line shift [v sin(i)]')
+ax.set_ylabel('flux')
+ax.set_title('Ca II H line in MN Lup')
+plt.draw()
 
+vshift = np.arange((fcaII.shape[0])) * 0.5
+vshift[:] += 1.5
+vshift[13:] +1
 
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
 
+for i in range(25):
+    ax.plot(x, fcaII[i,:] + vshift[i], 'k')
 
+ax.plot(x, np.mean(fcaII, axis = 0))
+ax.set_xlim([-2.5, +2.5])
+ax.set_xlabel('line shift [$v \\sin i$]')
+ax.set_ylabel('flux')
+ax.set_title('Ca IIH line in MN Lup')
+fig.subplots_adjust(bottom = 0.15)
+plt.draw()
 
 
 '''

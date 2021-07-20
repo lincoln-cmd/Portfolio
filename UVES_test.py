@@ -20,7 +20,7 @@ filelist = glob(globpath)
 filelist.sort()
 #print(filelist)
 
-sp = fits.open(filelist[2])
+sp = fits.open(filelist[0])
 #sp.info()
 
 header = sp[0].header
