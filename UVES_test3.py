@@ -48,15 +48,30 @@ ax.set_ylabel('flux')
 ax.set_title('Ca II H line in MN Lup')
 plt.draw()
 
-vshift = np.arange((fcaII.shape[0])) * 0.5
-vshift[:] += 1.5
-vshift[13:] +1
+#for i in range(len(fcaII)):
+ #   print(fcaII.shape[0])
+    
+#print(fcaII.shape[0]) # rows of fcaII
+#print(fcaII.shape[1]) # columns of fcaII
+#print(len(fcaII[24]))
+
+
+#print(type(yshift))
+yshift = np.arange((fcaII.shape[0])) * 0.5
+print(yshift)
+print(type(yshift), yshift.dtype)
+yshift[:] += 1.5
+print(yshift)
+print(type(yshift), yshift.dtype)
+yshift[13:] += 1
+print(yshift)
+print(type(yshift), yshift.dtype)
 
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 
 for i in range(25):
-    ax.plot(x, fcaII[i,:] + vshift[i], 'k')
+    ax.plot(x, fcaII[i,:] + yshift[i], 'k')
 
 ax.plot(x, np.mean(fcaII, axis = 0))
 ax.set_xlim([-2.5, +2.5])
