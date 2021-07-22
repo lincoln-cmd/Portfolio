@@ -45,7 +45,8 @@ ax.plot(x, fcaII[0, :], marker = '', drawstyle = 'steps-mid')
 ax.set_xlim([-3, +3])
 ax.set_xlabel('line shift [v sin(i)]')
 ax.set_ylabel('flux')
-ax.set_title('Ca II H line in MN Lup')
+ax.set_title('Ca II H line in MN Lup (single)')
+fig.subplots_adjust(bottom = 0.15)
 plt.draw()
 
 #for i in range(len(fcaII)):
@@ -58,28 +59,78 @@ plt.draw()
 
 #print(type(yshift))
 yshift = np.arange((fcaII.shape[0])) * 0.5
-print(yshift)
-print(type(yshift), yshift.dtype)
+#print(yshift)
+#print(type(yshift), yshift.dtype)
 yshift[:] += 1.5
-print(yshift)
-print(type(yshift), yshift.dtype)
+#print(yshift)
+#print(type(yshift), yshift.dtype)
 yshift[13:] += 1
-print(yshift)
-print(type(yshift), yshift.dtype)
+#print(yshift)
+#print(type(yshift), yshift.dtype)
 
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 
+#print(fcaII[0])
+#print(fcaII[1])
 for i in range(25):
     ax.plot(x, fcaII[i,:] + yshift[i], 'k')
+    #print(fcaII[i])
 
+#ax.plot(x, np.mean(fcaII, axis = 0))
+ax.set_xlim([-2.5, +2.5])
+ax.set_xlabel('line shift [$v \\sin i$]')
+ax.set_ylabel('flux')
+ax.set_title('Ca IIH line in MN Lup (all)')
+fig.subplots_adjust(bottom = 0.15)
+plt.draw()
+
+'''
+ sepearte the grapht into the all and mean
+'''
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
 ax.plot(x, np.mean(fcaII, axis = 0))
 ax.set_xlim([-2.5, +2.5])
 ax.set_xlabel('line shift [$v \\sin i$]')
 ax.set_ylabel('flux')
-ax.set_title('Ca IIH line in MN Lup')
+ax.set_title('Ca IIH line in MN Lup (mean)')
 fig.subplots_adjust(bottom = 0.15)
 plt.draw()
+
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+for i in range(len(fcaII)):
+    ax.plot(x, fcaII[i,:] + yshift[i], 'k')
+ax.plot(x, np.mean(fcaII, axis = 0))
+ax.set_xlim([-2.5, +2.5])
+ax.set_xlabel('line shift [$v \\sin i$]')
+ax.set_ylabel('flux')
+ax.set_title('Ca IIH line in MN Lup (summary)')
+fig.subplots_adjust(bottom = 0.15)
+plt.draw()
+
+
+
+fmean = np.mean(fcaII, axis = 0)
+print(fmean.shape) # (675,)
+print(fcaII.shape) # (25, 675)
+#fmean = fmean[np.newaxis, :]
+fdiff = fcaII - fmean[np.newaxis, :]
+print(fmean.shape) # new shape -> (1, 675) : if fmean is converted by utilizing the 'np.newaxis'
+print(fdiff.shape)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 '''
