@@ -113,15 +113,33 @@ plt.draw()
 
 
 fmean = np.mean(fcaII, axis = 0)
-print(fmean.shape) # (675,)
-print(fcaII.shape) # (25, 675)
+#print(fmean.shape) # (675,)
+#print(fcaII.shape) # (25, 675)
+#print(fcaII)
 #fmean = fmean[np.newaxis, :]
 fdiff = fcaII - fmean[np.newaxis, :]
-print(fmean.shape) # new shape -> (1, 675) : if fmean is converted by utilizing the 'np.newaxis'
-print(fdiff.shape)
+#print(fdiff)
+#print('fmean : ', fmean)
+#print(fmean.shape) # new shape -> (1, 675) : if fmean is converted by utilizing the 'np.newaxis'
+#print(fdiff.shape)
 
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+im = ax.imshow(fdiff, aspect = 'auto', origin = 'lower')
 
+ind1 = delta_p < 1 * u.dimensionless_unscaled
+ind2 = delta_p > 1 * u.dimensionless_unscaled
+# delta_p : gap of observation time 
 
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+
+for ind in [ind1, ind2]:
+    im = ax.imshow(fdiff[ind, :], extent = (np.min(x), np.max(x), np.min(delta_p[ind]), np.max(delta_p[ind])), aspect = 'auto', origin = 'lower')
+    
+ax.set_ylim([np.min(delta_p), np.max(delta_p)])
+ax.set_xlim([-1.9, +1.9])
+plt.draw()
 
 
 
