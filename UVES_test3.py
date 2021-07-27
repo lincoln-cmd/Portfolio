@@ -143,7 +143,9 @@ plt.draw()
 
 
 pplot = delta_p.copy().value
+#print(pplot[ind2])
 pplot[ind2] -= 1.5
+#print(pplot[ind2])
 delta_t = np.median(np.diff(delta_p)) / 2.
 delta_x = np.median(np.diff(x)) / 2.
 fdiff = fdiff / np.max(np.abs(fdiff))
@@ -152,9 +154,8 @@ fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 
 for ind in [ind1, ind2]:
-    im = ax.imshow(fdiff[ind, :],
-    extent = (np.min(x) - delta_t, np.max(x) + delta_x, np.min(pplot[ind]) - delta_t, np.max(pplot[ind]) + delta_t,
-    aspect = 'auto', origin = 'lower', cmap = plt.cm.Greys_r))
+    im = ax.imshow(fdiff[ind, :], extent = (np.min(x) - delta_x, np.max(x) + delta_x, np.min(pplot[ind]) - delta_t, np.max(pplot[ind]) + delta_t),
+                   aspect = 'auto', origin = 'lower', cmap = plt.cm.Greys_r)
     
 
 
@@ -173,7 +174,8 @@ def pplot(y, pos):
 formatter = plt.FuncFormatter(pplot)
 ax.yaxis.set_major_formatter(formatter)
 ax.set_ylabel('period')
-fig.subplot_adjust(left = 0.15, bottom = 0.15, right = 0.99, top = 0.99)
+ax.set_title('Final plot in grayscale')
+fig.subplots_adjust(left = 0.15, bottom = 0.15, right = 0.99, top = 0.99)
 plt.draw()
 
 
