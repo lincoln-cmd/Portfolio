@@ -162,7 +162,7 @@ for ind in [ind1, ind2]:
 ax.set_ylim([np.min(pplot) - delta_t, np.max(pplot) + delta_t])
 ax.set_xlim([-1.9, +1.9])
 ax.set_xlabel('vel in $v\\sin i$')
-ax.xaxis.set_major_locator(plt.MaxNLocator(4))
+ax.xaxis.set_major_locator(plt.MaxNLocator(5))
 
 def pplot(y, pos):
     if y < 0.5:
