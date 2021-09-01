@@ -4,7 +4,7 @@
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-%matplotlib inline
+#%matplotlib inline
 import numpy as np
 
 from astropy import units as u
@@ -69,7 +69,22 @@ c3 = SkyCoord(ra = 15.9932 * u.deg, dec = -10.52351344 * u.deg, distance = 127.4
 print(c3.representation_type)
 print(c3)
 
+c3.representation_type = coord.CylindricalRepresentation
+#print(c3.representation_type)
+print(c3)
+print(c3.rho, c3.phi * u.deg, c3.z)
 
+'''
+ - about ICRS PDF : https://arxiv.org/pdf/astro-ph/0602086.pdf
+'''
+
+# Transforming betwwen coordinate frames
+
+tb1 = QTable.read('Cantat-Gaudin-open-clusters.ecsv')
+
+
+open_cluster_c = SkyCoord(ra = tb1['ra'], dec = tb1['dec'], distance = tb1['distance'], frame = 'icrs')
+print(len(open_cluster_c))
 
 
 
