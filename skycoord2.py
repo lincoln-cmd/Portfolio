@@ -80,12 +80,12 @@ print(c3.rho, c3.phi * u.deg, c3.z)
 
 # Transforming betwwen coordinate frames
 
-tb1 = QTable.read('Cantat-Gaudin-open-clusters.ecsv')
+tbl = QTable.read('asu.fit')
 
 
 open_cluster_c = SkyCoord(ra = tb1['ra'], dec = tb1['dec'], distance = tb1['distance'], frame = 'icrs')
 print(len(open_cluster_c))
 
-
+print(open_cluster_c[:4])
 
 
