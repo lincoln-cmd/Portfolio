@@ -80,12 +80,61 @@ print(c3.rho, c3.phi * u.deg, c3.z)
 
 # Transforming betwwen coordinate frames
 
-tbl = QTable.read('asu.fit')
-
+tb1 = QTable.read('C:/Users/Administrator/Desktop/donghun/Cantat-Gaudin-open-clusters.ecsv')
+# the file path can be different
+# file from : https://github.com/astropy/astropy-tutorials/blob/main/tutorials/notebooks/astropy-coordinates/Cantat-Gaudin-open-clusters.ecsv
 
 open_cluster_c = SkyCoord(ra = tb1['ra'], dec = tb1['dec'], distance = tb1['distance'], frame = 'icrs')
 print(len(open_cluster_c))
 
 print(open_cluster_c[:4])
+
+'''
+ visualize the positions of all of these clusters
+'''
+def coordinates_aitoff_plot(coords):
+    fig, ax = plt.subplots(figsize = (10, 4), subplot_kw = dict(projection = 'aitoff'))
+    
+    sph = coords.spherical
+    cs = ax.scatter(-sph.lon.wrap_at(180 * u.deg).radian, sph.lat.radian, c = sph.distance.value)
+    
+    def fmt_func(x, pos):
+        val = coord.Angle(-x * u.radian).wrap_at(360 * u.deg).degree
+        return f'${val:.0f}' + r'^{\circ}$'
+    
+    ticker = mpl.ticker.FuncFormatter(fmt_func)
+    ax.xaxis.set_major_formatter(ticker)
+    
+    ax.grid()
+    
+    cb = fig.colorbar(cs)
+    cb.set_label('distance [pc]')
+    
+    return fig, ax
+
+fig, ax = coordinates_aitoff_plot(open_cluster_c)
+ax.set_xlabel('RA [deg]')
+ax.set_ylabel('Dec [deg]')
+
+# convert to the other coordinate system
+open_cluster_gal = open_cluster_c.transform_to(Galactic())
+
+open_cluster_gal = open_cluster_c.galactic
+
+print(open_cluster_gal[:4])
+
+print(open_cluster_gal.l[:4])
+print(open_cluster_gal.b[:4])
+print(open_cluster_gal.distance[:4])
+
+print(len(open_cluster_gal.l), len(open_cluster_gal.b), len(open_cluster_gal.distance))
+print(len(open_cluster_gal))
+
+# plot the new coordinate in galactic coordinates
+fig, ax = coordinates_aitoff_plot(open_cluster_gal)
+ax.set_xlabel('Galactic longitude, $l$ [deg]')
+ax.set_ylabel('Galactic latitude, $b$ [deg]')
+
+
 
 
