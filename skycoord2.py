@@ -135,6 +135,38 @@ fig, ax = coordinates_aitoff_plot(open_cluster_gal)
 ax.set_xlabel('Galactic longitude, $l$ [deg]')
 ax.set_ylabel('Galactic latitude, $b$ [deg]')
 
+'''
+ computing the altitude of a target at an observatory
+'''
+
+demo_loc = EarthLocation.from_geodetic(lon = -74.32834 * u.deg, lat = 43.05885 * u.deg)
+
+demo_loc = EarthLocation.of_address('162 Fifth Ave, New York, NY 10010')
+
+observing_location = EarthLocation.of_site('Kitt Peak')
+
+# 1AM UTC = 6PM local time (AZ mountain time), roughly the start of a night
+observing_date = Time('2020-12-18 1:00')
+
+# Compute the alt/az over a 14 hour period, starting at 6PM local time,
+# with 256 equally spaced time points:
+time_grid = observing_date + np.linspace(0, 14, 256) * u.hour
+'''
+ above frame can accepts more parameters about the atmospheric refraction, but in above, this is set as defaults values, which means that this is ignored.
+'''
+altaz = AltAz(location = observing_location, obstime = time_grid)
+
+oc_altaz = open_cluster_c[0].transform_to(altaz)
+#print(oc_altaz)
+
+plt.figure(figsize = (6, 5))
+plt.plot(time_grid.datetime, oc_altaz.alt.degree, marker = '')
+plt.axhline(0, zorder = -10, linestyle = '--', color = 'tab:red')
+plt.xlabel('Date/Time [UTC]')
+plt.ylabel('Altitude [deg]')
+plt.setp(plt.gca().xaxis.get_majorticklabels(), rotation = 45)
+plt.tight_layout()
+
 
 
 
