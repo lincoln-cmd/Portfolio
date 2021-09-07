@@ -167,6 +167,35 @@ plt.ylabel('Altitude [deg]')
 plt.setp(plt.gca().xaxis.get_majorticklabels(), rotation = 45)
 plt.tight_layout()
 
+'''
+ employ the other Numpy: array broadcasting.
+ above only shows the altitude trajectory for the first open cluster. computer the equivalent for all of the open clusters in the catalog.
+ evaluate the AltAz coordinates of these clusters at 256 different times.
+ 
+'''
+print(len(open_cluster_c), len(altaz.obstime))
+
+# make 2-dimension coordinate object, which is composed with open cluster index at one axis and time index at other axis
+# use array-like broadcasting by creating new, unmatched, length-1 axes
+
+open_cluster_altaz = open_cluster_c[:, np.newaxis].transform_to(altaz[np.newaxis])
+
+# over-plot the trajectores for the first 10 open clusters
+plt.figure(figsize = (6, 5))
+plt.plot(time_grid.datetime, open_cluster_altaz[:10].alt.degree.T, marker = '', alpha = 0.5)
+plt.axhline(0, zorder = -10, linestyle = '--', color = 'tab:red')
+plt.xlabel('Date/Time [UTC]')
+plt.ylabel('Altitude [deg]')
+plt.setp(plt.gca().xaxis.get_majorticklabels(), rotation = 45)
+plt.tight_layout()
+
+
+
+
+
+
+
+
 
 
 
