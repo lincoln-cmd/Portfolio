@@ -33,7 +33,6 @@ Gaia.ROW_LIMIT = 10000
 
 
 
-
 '''
 
 ngc188_center = SkyCoord(12.11 * u.deg, 85.26*u.deg)
@@ -60,7 +59,12 @@ print(ngc188_center.ra.to(u.hourangle), ngc188_center.ra.to(u.radian), ngc188_ce
 
 print(ngc188_center.ra.hour, ngc188_center.ra.radian, ngc188_center.ra.degree)
 
+'''
+ formatting coordinate strings : https://docs.astropy.org/en/latest/coordinates/formatting.html
+'''
 print(ngc188_center.ra.to_string(unit = u.hourangle, sep = ':', pad = True))
+# print(ngc188_center.ra.to_string(unit = u.radian, sep = ':', pad = True))
+print(ngc188_center.ra.to_string(unit = u.degree, sep = ':', pad = True))
 
 job = Gaia.cone_search_async(ngc188_center, radius = 0.5 * u.deg)
 #ngc188_table = job.get_results()

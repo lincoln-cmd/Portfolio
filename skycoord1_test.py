@@ -13,10 +13,15 @@ from astroquery.gaia import Gaia
 Gaia.ROW_LIMIT = 10000
 
 a0620_center = SkyCoord.from_name('A0620')
-print('test : ', new_center)
+#print('test : ', a0620_center)
 
 a0620_center = SkyCoord('08h05m43.20s', '45d40m58.0s', frame = 'icrs')
-print(a0620_center)
+#print(a0620_center)
 
 a0620_center = SkyCoord('08:05:43.20', '45:40:58.0', unit = (u.hour, u.deg), frame = 'icrs')
 print(a0620_center)
+
+print('ra : ', a0620_center.ra, '/ dec : ', a0620_center.dec)
+print('ra(hour) : ', a0620_center.ra.to(u.hourangle), '/ ra(rad) : ', a0620_center.ra.to(u.radian), '/ ra(deg) : ', a0620_center.ra.to(u.degree))
+print('ra(hour) : ', a0620_center.ra.to_string(unit = u.hourangle, sep = ':', pad = True), '/ ra(deg) : ', a0620_center.ra.to_string(unit = u.degree, sep = ':', pad = True))
+
