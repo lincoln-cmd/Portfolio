@@ -66,7 +66,7 @@ print(ngc188_center.ra.to_string(unit = u.hourangle, sep = ':', pad = True))
 # print(ngc188_center.ra.to_string(unit = u.radian, sep = ':', pad = True))
 print(ngc188_center.ra.to_string(unit = u.degree, sep = ':', pad = True))
 
-job = Gaia.cone_search_async(ngc188_center, radius = 0.5 * u.deg)
+#job = Gaia.cone_search_async(ngc188_center, radius = 0.5 * u.deg)
 #ngc188_table = job.get_results()
 
 #ngc188_table = ngc188_table[ngc188_table['phot_g_mean_mag'] < 19 * u.mag]
@@ -76,17 +76,19 @@ job = Gaia.cone_search_async(ngc188_center, radius = 0.5 * u.deg)
  #       'phot_rp_mean_mag']
 #ngc188_table[cols].write('gaia_results.fits', overwrite = True)
 
-#print(len(ngc188_table))
+#print('table : ', len(ngc188_table))
 
 
 ngc188_table = QTable.read('gaia_results.fits')
-print(len(ngc188_table))
+print('table2 : ', len(ngc188_table))
 
 print('ra : ', ngc188_table['ra'])
 print('dec : ', ngc188_table['dec'])
 
 ngc188_gaia_coords = SkyCoord(ngc188_table['ra'], ngc188_table['dec'])
 print(ngc188_gaia_coords)
+print(len(ngc188_gaia_coords))
+print(type(ngc188_gaia_coords))
 
 
 '''
