@@ -5,6 +5,9 @@
 
 '''
  - PDF about parallax : https://arxiv.org/pdf/1507.02105.pdf
+
+ - angular separation(distance) : https://en.wikipedia.org/wiki/Angular_distance
+
 '''
 
 import matplotlib.pyplot as plt

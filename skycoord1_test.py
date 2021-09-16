@@ -25,3 +25,12 @@ print('ra : ', a0620_center.ra, '/ dec : ', a0620_center.dec)
 print('ra(hour) : ', a0620_center.ra.to(u.hourangle), '/ ra(rad) : ', a0620_center.ra.to(u.radian), '/ ra(deg) : ', a0620_center.ra.to(u.degree))
 print('ra(hour) : ', a0620_center.ra.to_string(unit = u.hourangle, sep = ':', pad = True), '/ ra(deg) : ', a0620_center.ra.to_string(unit = u.degree, sep = ':', pad = True))
 
+'''
+a0620_table = QTable.read('gaia_results.fits')
+print(len(a0620_table))
+
+a0620_gaia_coords = SkyCoord(a0620_table['ra'], a0620_table['dec'])
+print(a0620_gaia_coords)
+print(len(a0620_gaia_coords))
+#print(type(a0620_gaia_coords))
+'''
