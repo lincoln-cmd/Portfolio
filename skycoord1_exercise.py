@@ -30,6 +30,10 @@ print(ngc188_gaia_coords.separation(ngc188_center))
 
 ngc188_center_3d = SkyCoord(12.11 * u.deg, 85.26 * u.deg, distance = 1.96 * u.kpc)
 
+
+'''
+ - estimating distances from parallaxes PDF : https://arxiv.org/pdf/1507.02105.pdf
+'''
 parallax_snr = ngc188_table['parallax'] / ngc188_table['parallax_error']
 ngc188_table_3d = ngc188_table[parallax_snr > 10]
 print(len(ngc188_table_3d))
