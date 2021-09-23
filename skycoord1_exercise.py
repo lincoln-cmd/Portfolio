@@ -64,10 +64,12 @@ print(sep3d)
 
 
 
+print(len(sep3d))
 # exercis2
 ngc188_3d_mask = sep3d < 50 * u.pc
 print(ngc188_3d_mask.sum())
-
+ngc188_3d_mask2 = sep3d < 100 * u.pc
+print(ngc188_3d_mask2.sum())
 
 
 
