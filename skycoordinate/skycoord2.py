@@ -29,6 +29,12 @@ print(c.dec.to_string(sep = ':', precision = 5))
 print(c.represent_as('cartesian')) # (x, y, z)
 print(c.represent_as(coord.CartesianRepresentation))
 
+#print('spherical : ', c.represent_as('spherical'))
+#print('spherical2 : ', c.represent_as(coord.SphericalRepresentation))
+#print('cylindrical : ', c.represent_as('cylindrical'))
+#print('cylindrical2 : ', c.represent_as(coord.CylindricalRepresentation))
+
+
 print([x for x in dir(coord) if x.endswith('Representation') and not x.startswith('Base')])
 
 # exercise of other representations
@@ -141,7 +147,9 @@ ax.set_ylabel('Galactic latitude, $b$ [deg]')
 
 demo_loc = EarthLocation.from_geodetic(lon = -74.32834 * u.deg, lat = 43.05885 * u.deg)
 
-demo_loc = EarthLocation.of_address('162 Fifth Ave, New York, NY 10010')
+#demo_loc = EarthLocation.of_address('162 Fifth Ave, New York, NY 10010')
+# -> get the information if the Internet is connected
+
 
 observing_location = EarthLocation.of_site('Kitt Peak')
 
