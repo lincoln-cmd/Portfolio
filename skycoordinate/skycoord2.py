@@ -29,10 +29,10 @@ print(c.dec.to_string(sep = ':', precision = 5))
 print(c.represent_as('cartesian')) # (x, y, z)
 print(c.represent_as(coord.CartesianRepresentation))
 
-#print('spherical : ', c.represent_as('spherical'))
-#print('spherical2 : ', c.represent_as(coord.SphericalRepresentation))
-#print('cylindrical : ', c.represent_as('cylindrical'))
-#print('cylindrical2 : ', c.represent_as(coord.CylindricalRepresentation))
+print('spherical : ', c.represent_as('spherical'))
+print('spherical2 : ', c.represent_as(coord.SphericalRepresentation))
+print('cylindrical : ', c.represent_as('cylindrical'))
+print('cylindrical2 : ', c.represent_as(coord.CylindricalRepresentation))
 
 
 print([x for x in dir(coord) if x.endswith('Representation') and not x.startswith('Base')])

@@ -51,6 +51,37 @@ print(velocity_coord_gal)
 print(velocity_coord_gal.pm_l_cosb)
 print(velocity_coord_gal.pm_b)
 
+'''
+# cannot transform with only sky position and proper motion to frame with a positional or velocity
+test_coord = SkyCoord(ra = 10 * u.deg, dec = 20 * u.deg, pm_ra_cosdec = 1 * u.mas / u.yr, pm_dec = 2 * u.mas / u.yr)
+
+print(test_coord.transform_to(coord.Galactocentric()))
+'''
+
+
+# query the Gaia catalog
+# connected the Internet
+
+# more info: https://www.cosmos.esa.int/web/gaia/dr2
+# http://vizier.u-strasbg.fr/viz-bin/VizieR-2?-source=I%2F345%2Fgaia2&-c=349.72687648%2B5.40561039&-c.rs=720.0
+# https://github.com/cds-astro/cds.cdsclient
+gaia_tbl = Gaia.query_object(SkyCoord.from_name('HD 219829'), radius = 1 * u.arcmin)
+with warnings.catch_warnings():
+    warnings.simplefilter('ignore', UserWarning)
+    
+    gaia_tbl = QTable.read('HD_219829_query_results.ecsv')
+
+hd219829_row = gaia_tbl[gaia_tbl['phot_g_mean_mag'].argmin()]
+print(hd219829_row['source_id', 'pmra', 'pmdec'])
+
+hd219829_coord = SkyCoord(ra = hd219829_row['ra'], dec = hd219829_row['dec'], distance = Distance(parallax = hd219829_row['parallax']),
+                          pm_ra_cosdec = hd219829_row['pmra'], pm_dec = hd219829_row['pmdec'], obstime = Time(hd219829_row['ref_epoch'], format = 'jyear'))
+print(hd219829_coord)
+
+
+
+
+
 
 
 
