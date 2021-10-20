@@ -65,6 +65,7 @@ print(test_coord.transform_to(coord.Galactocentric()))
 # more info: https://www.cosmos.esa.int/web/gaia/dr2
 # http://vizier.u-strasbg.fr/viz-bin/VizieR-2?-source=I%2F345%2Fgaia2&-c=349.72687648%2B5.40561039&-c.rs=720.0
 # https://github.com/cds-astro/cds.cdsclient
+
 gaia_tbl = Gaia.query_object(SkyCoord.from_name('HD 219829'), radius = 1 * u.arcmin)
 with warnings.catch_warnings():
     warnings.simplefilter('ignore', UserWarning)
@@ -78,6 +79,22 @@ hd219829_coord = SkyCoord(ra = hd219829_row['ra'], dec = hd219829_row['dec'], di
                           pm_ra_cosdec = hd219829_row['pmra'], pm_dec = hd219829_row['pmdec'], obstime = Time(hd219829_row['ref_epoch'], format = 'jyear'))
 print(hd219829_coord)
 
+
+dss_cutout_filename = download_file( f'http://archive.stsci.edu/cgi-bin/dss_search?'
+                                    f'f=FITS&ra={hd219829_coord.ra.degree}&dec={hd219829_coord.dec.degree}'
+                                    f'&width=4&height=4')
+dss_cutout_filename = 'dss_hd219829.fits'
+
+hdu = fits.open(dss_cutout_filename)[0]
+wcs = WCS(hdu.header)
+
+fig, ax = plt.subplots(1, 1, figsize = (8, 8), subplot_kw = dict(projection=wcs))
+ax.imshow(hdu.data, origin='lower', cmap = 'Greys_r')
+ax.set_xlabel('RA')
+ax.set_ylabel('Dec')
+ax.set_autoscale_on(False)
+
+ax.scatter(hd219829_coord.ra.degree, hd219829_coord.dec.degree, s = 500, transform = ax.get_transform('world'), facecolor = 'none', linewidth = 2, color = 'tab:red')
 
 
 
