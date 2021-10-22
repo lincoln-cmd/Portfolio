@@ -67,16 +67,28 @@ print(test_coord.transform_to(coord.Galactocentric()))
 # https://github.com/cds-astro/cds.cdsclient
 
 gaia_tbl = Gaia.query_object(SkyCoord.from_name('HD 219829'), radius = 1 * u.arcmin)
+'''
 with warnings.catch_warnings():
     warnings.simplefilter('ignore', UserWarning)
     
     gaia_tbl = QTable.read('HD_219829_query_results.ecsv')
+'''
+
 
 hd219829_row = gaia_tbl[gaia_tbl['phot_g_mean_mag'].argmin()]
 print(hd219829_row['source_id', 'pmra', 'pmdec'])
 
-hd219829_coord = SkyCoord(ra = hd219829_row['ra'], dec = hd219829_row['dec'], distance = Distance(parallax = hd219829_row['parallax']),
-                          pm_ra_cosdec = hd219829_row['pmra'], pm_dec = hd219829_row['pmdec'], obstime = Time(hd219829_row['ref_epoch'], format = 'jyear'))
+#print(hd219829_row['parallax'])
+#print(type(hd219829_row['parallax']))
+
+#hd219829_coord = SkyCoord(ra = hd219829_row['ra'], dec = hd219829_row['dec'], distance = Distance(parallax = hd219829_row['parallax']), pm_ra_cosdec = hd219829_row['pmra'], pm_dec = hd219829_row['pmdec'], obstime = Time(hd219829_row['ref_epoch'], format = 'jyear'))
+hd219829_coord = SkyCoord(
+    ra=hd219829_row['ra'],
+    dec=hd219829_row['dec'],
+    distance=Distance(parallax=hd219829_row['parallax']),
+    pm_ra_cosdec=hd219829_row['pmra'],
+    pm_dec=hd219829_row['pmdec'],
+    obstime=Time(hd219829_row['ref_epoch'], format='jyear'))
 print(hd219829_coord)
 
 
@@ -97,9 +109,23 @@ ax.set_autoscale_on(False)
 ax.scatter(hd219829_coord.ra.degree, hd219829_coord.dec.degree, s = 500, transform = ax.get_transform('world'), facecolor = 'none', linewidth = 2, color = 'tab:red')
 
 
+print(hd219829_coord.obstime)
 
+with warnings.catch_warnings():
+    warnings.simplefilter('ignore', UserWarning)
+    
+    hd219829_coord_1950 = hd219829_coord.apply_space_motion(new_obstime = Time('J1950'))
+    
+fig, ax = plt.subplots(1, 1, figsize = (8, 8), subplot_kw = dict(projection = wcs))
 
+ax.imshow(hdu.data, origin = 'lower', cmap = 'Greys_r')
+ax.set_xlabel('RA')
+ax.set_ylabel('Dec')
+ax.set_autoscale_on(False)
 
+ax.scatter(hd219829_coord.ra.degree, hd219829_coord.dec.degree, s = 500, transform = ax.get_transform('world'), facecolor = 'none', linewidth = 2, color = 'tab:red')
+
+ax.scatter(hd219829_coord_1950.ra.degree, hd219829_coord_1950.dec.degree, s = 500, transform = ax.get_transform('world'), facecolor = 'none', linewidth = 2, color = 'tab:blue')
 
 
 
