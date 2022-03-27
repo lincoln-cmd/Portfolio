@@ -3,6 +3,9 @@ from: https://www.thepythoncode.com/article/machine-translation-using-huggingfac
 '''
 from transformers import *
 
+########################################
+# translate English to German
+'''
 src = 'en'
 dst = 'de'
 
@@ -13,6 +16,7 @@ translator = pipeline(task_name, model = model_name, tokenizer = model_name)
 
 #print(translator('You\'re a genius.')[0]['translation_text'])
 
+'''
 
 article = """
 Albert Einstein ( 14 March 1879 – 18 April 1955) was a German-born theoretical physicist, widely acknowledged to be one of the greatest physicists of all time. 
@@ -62,15 +66,44 @@ beam_outputs = model.generate(inputs, num_beams = 3)
 print(tokenizer.decode(beam_outputs[0], skip_special_tokens = True))
 '''
 
-src = 'en'
-dst = 'zh'
 
-task_name = f'translation_{src}_to_{dst}'
-model_name = f'Helsinki-NLP/opus-mt-{src}-{dst}'
 
-translator = pipeline(task_name, model = model_name, tokenizer = model_name)
+####################################
+# test in Chinese, German, and Arabic
 
-print(translator(article)[0]["translation_text"])
+
+src1 = 'en'
+dst1 = 'zh'
+
+task_name1 = f'translation_{src1}_to_{dst1}'
+model_name1 = f'Helsinki-NLP/opus-mt-{src1}-{dst1}'
+
+translator1 = pipeline(task_name1, model = model_name1, tokenizer = model_name1)
+
+
+
+src2 = 'en'
+dst2 = 'ar'
+
+task_name2 = f'translation_{src2}_to_{dst2}'
+model_name2 = f'Helsinki-NLP/opus-mt-{src2}-{dst2}'
+
+translator2 = pipeline(task_name2, model = model_name2, tokenizer = model_name2)
+
+
+
+src3 = 'en'
+dst3 = 'de'
+
+task_name3 = f'translation_{src3}_to_{dst3}'
+model_name3 = f'Helsinki-NLP/opus-mt-{src3}-{dst3}'
+
+translator3 = pipeline(task_name2, model = model_name2, tokenizer = model_name3)
+
+print("Hello. Nice to meet you.")
+print('in chinese : ', translator(article2)[0]["translation_text"])
+print('in arabic : ', translator2(article2)[0]["translation_text"])
+print('in german : ', translator3(article2)[0]["translation_text"])
 
 #################################################
 # translate English to Arabic
