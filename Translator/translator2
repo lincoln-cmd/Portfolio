@@ -1,0 +1,47 @@
+'''
+from: https://blockdmask.tistory.com/540
+'''
+
+
+
+import googletrans
+
+
+translator = googletrans.Translator()
+'''
+str1 = '나는 한국인 입니다.'
+str2 = 'I like burger.'
+result1 = translator.translate(str1, dest = 'en')
+result2 = translator.translate(str2, dest = 'ko')
+
+print(f'{result1.text}')
+print(f'{result2.text}')
+'''
+
+
+#print(googletrans.LANGCODES)
+#print(len(googletrans.LANGCODES.values()))
+
+while True:
+    print('Insert text :', end = ' ')
+    test2 = str(input())
+
+    
+    print('Insert language you want to translate. If you want to see the list of languages, insert \'language\' :', end = ' ')
+    dst = str(input())
+
+    if dst.lower() == 'language':
+        print(googletrans.LANGCODES)
+        continue
+    elif dst not in googletrans.LANGCODES.values():
+        print("It's not available. Check the correct language.")
+        continue
+    else:
+
+        test2_result = translator.translate(test2, dest = dst)
+        
+
+
+        print(f'{test2_result.text}')
+        print(f'{test2_result.pronunciation}')
+        
