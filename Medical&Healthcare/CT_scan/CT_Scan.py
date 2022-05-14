@@ -105,3 +105,59 @@ def find_lugs(contours):
         vol_contours, body_and_lung_contours = (list(t) for t in zip(*sorted(zip(vol_contours, body_and_lung_contours))))
         body_and_lung_contours.pop(-1) # discard body
         return body_and_lung_contours # only lungs left
+    
+# 5. Contour to binary mask
+
+'''
+ Utilize pillow python library that draws a polygon and creates a binary image mask to save nifty file.
+'''
+
+import numpy as np
+from PIL import Image, ImageDraw
+
+def create_mask_from_polygon(image, contours):
+    '''
+    Creates a binary mask with the dimensions of the image and converts the list of polygon-contours to binary masks and merges them together.
+    Args:
+        image: the image that the contours refer to
+        contours: list of contours
+        
+    Returns:
+    '''
+    
+    lung_mask = np.array(Image.new('L', image.shape, 0))
+    for contour in contours:
+        x = contour[:, 0]
+        y = contour[:, 1]
+        polygon_tuple = list(zip(x, y))
+        img = Image.new('L', image.shape, 0)
+        ImageDraw.Draw(img).polygon(polygon_tuple, outline = 0, fill = 1)
+        mask = np.array(img)
+        lung_mask += mask
+        
+    lung_mask[lung_mask > 1] = 1 # sanity check to make 100% sure that the mask is binary
+    return lung_mask.T # transpose it to be aligned with the image dims
+
+
+def save_nifty(img_np, name, affine):
+    '''
+    Binary masks should be converted to 255 so it can be displayed in a nii viewer. We pass the affine of the inital image to make sure it exits in the same image coorinate space.
+    Args:
+        img_np: the binary mask
+        name: output name
+        affine: 4x4np array
+    
+    Returns:
+    '''
+    
+    img_np[img_np == 1] = 255
+    ni_img = nib.Nifti1Image(img_np, affine)
+    nib.save(ni_img, name + '.nii.gz')
+    
+    
+'''
+ Download free medical images: https://www.aliza-dicom-viewer.com/download
+'''
+
+# Segment the main vessels and compute the vessels over lung area ratio
+
