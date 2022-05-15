@@ -161,3 +161,62 @@ def save_nifty(img_np, name, affine):
 
 # Segment the main vessels and compute the vessels over lung area ratio
 
+'''
+ If there is over -500 intensirt value of pixel and it is not the lung area, we will consider it as a vessel.
+ 
+ First, we do element-wise multiplication between the CT image and the lung mask to get only the lungs. Afterwards, we set the zeros that resulted from the element-wise multiplication to -1000 (AIR in HU) and finally keep only the intensities that are bigger than -500 as vessels.
+'''
+
+def create_vessel_mask(lung_mask, ct_numpy, denoise = False):
+    vessels = lung_mask * ct_numpy # isolate lung area
+    vessels[vessels == 0] = -1000
+    vessels[vessels >= -500] = 1
+    vessels[vessels < -500] = 0
+    show_slice(vessels)
+    if denoise:
+        return denoise_vessels(lungs_contour, vessels)
+    show_slice(vessels)
+    return vessels
+
+# Analyzing and improving the segmentation's result
+
+'''
+ Create a denosing function which considers the distance of the mask to all the contour points. If it is below 0.1, set the pixel value to 0, which exclude them from the detected vessels.
+'''
+
+def denoise_vessels(lung_contour, vessels):
+    vessels_coords_x, vessels_coords_y = np.nonzero(vessels) # get non zero coordinates
+    for contour in lung_contour:
+        x_points, y_points = contour[:, 0], contour[:, 1]
+        for (coord_x, coord_y) in zip(vessels_coords_x, vessels_coords_y):
+            for (x, y) in zip(x_points, y_points):
+                d = euclidean_dist(x - coord_x, y - coord_y)
+                if d <= 0.1:
+                    vessels[coord_x, coord_y] = 0
+    return vessels
+
+# overlay the mask in the original CT image
+
+def overlay_plot(im, mask):
+    plt.figure()
+    plt.imshow(im.T, 'gray', interpolation = 'none')
+    plt.imshow(mask.T, 'jet', interpolation = 'none', alpha = 0.5)
+    
+# By taking into account the individual image pixel dimension, having the mask which is the vessel area is computed similar to what did for the lung.
+
+def compute_area(mask, pixdim):
+    '''
+    Computes the area(number of pixels) of a binary mask and multiplies the pixels with the pixel dimension of the acquired CT image.
+    Args:
+        lung_mask: binary lung mask
+        pixdim: list or tuple with two values
+        
+    Returns: the lung area in mm^2
+    '''
+    
+    mask[mask >= 1] = 1
+    lung_pixels = np.sum(mask)
+    return lung_pixels * pixdim[0] * pixdim[1]
+    
+    
+    
