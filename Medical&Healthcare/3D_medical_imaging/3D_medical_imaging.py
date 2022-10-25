@@ -1,3 +1,5 @@
+# from: https://theaisummer.com/medical-image-processing/
+
 # Introduction to 3D medical imaging for machine learning: preprocessing and augmentations
 
 # 3D medical imaging for machine learning
@@ -6,6 +8,7 @@
 
 
 import matplotlib as plt
+import numpy as np
 
 
 # The images will be shown in 3 planes: sagittal, coronal, axial looking from left to right.
@@ -104,3 +107,25 @@ def random_rotated3D(img_numpy, imn_angle, max_angle):
     
 # Medical image flip
 
+def random_flip(img, label = None):
+    axes = [0, 1, 2]
+    rand = np.random.randint(0, 3)
+    img = flip_axis(img, axes[rand])
+    img = np.squeeze(img)
+    
+    if label is None:
+        return img
+    else:
+        y = flip_axis(y, axes[rand])
+        y = np.squeez(y)
+    return x, y
+
+def flip_axis(x, axis):
+    x = np.asarray(x).swapaxes(axis, 0)
+    x = x[::-1, ...]
+    x = x.swapaxes(0, axis)
+    return x
+
+
+
+# Medical image shifting(displacement)
